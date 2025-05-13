@@ -1,0 +1,98 @@
+import { Meta, Canvas, Story } from '@storybook/blocks';
+import * as Stories from '../stories/AtomGridTable.stories';
+import { AtomGridTable } from '@sanbira/atom-grid-table';
+import { Unstyled } from '@storybook/blocks';
+
+<Meta title="Documentation/Basic Implementation" />
+
+# Basic Implementation
+
+## Getting Started
+
+AtomGridTable requires at minimum two props: `colOptions` and `rows`.
+
+### Installation
+
+```bash
+npm install @sanbira/atom-grid-table
+```
+
+### Import
+
+```jsx
+import { AtomGridTable } from '@sanbira/atom-grid-table';
+import '@sanbira/atom-grid-table/style.css';
+```
+
+### Basic Usage
+
+```jsx
+const MyTable = () => {
+  const colOptions = [
+    { label: 'id' },
+    { label: 'name', width: '2fr' },
+    { label: 'email', width: '2fr' },
+  ];
+  
+  const rows = [
+    { cells: [{ content: '1' }, { content: 'John Doe' }, { content: 'john@example.com' }] },
+    { cells: [{ content: '2' }, { content: 'Jane Smith' }, { content: 'jane@example.com' }] },
+    { cells: [{ content: '3' }, { content: 'Bob Johnson' }, { content: 'bob@example.com' }] },
+  ];
+
+  return <AtomGridTable colOptions={colOptions} rows={rows} />;
+};
+```
+
+## Example
+
+<Canvas of={Stories.Basic} />
+
+## Core Props
+
+Below is a table showing the core props of AtomGridTable:
+
+<Unstyled>
+<AtomGridTable 
+  colOptions={[
+    { label: 'Prop', width: '1fr' },
+    { label: 'Type', width: '1fr' },
+    { label: 'Description', width: '2fr' },
+  ]}
+  rows={[
+    { cells: [
+      { content: 'colOptions' }, 
+      { content: 'ColOption[]' }, 
+      { content: 'Array of column configuration objects' }
+    ]},
+    { cells: [
+      { content: 'rows' }, 
+      { content: 'TableRow[]' }, 
+      { content: 'Array of row objects with cell data' }
+    ]},
+    { cells: [
+      { content: 'className' }, 
+      { content: 'string' }, 
+      { content: 'Additional CSS class to apply to the table' }
+    ]},
+    { cells: [
+      { content: 'isLoading' }, 
+      { content: 'boolean' }, 
+      { content: 'Shows loading state when true' }
+    ]},
+    { cells: [
+      { content: 'tableTheme' }, 
+      { content: 'string' }, 
+      { content: 'Theme name to apply to the table' }
+    ]},
+    { cells: [
+      { content: 'tableStyleOptions' }, 
+      { content: 'TableStyleOptions' }, 
+      { content: 'Style configuration object for the table appearance' }
+    ]},
+  ]}
+  tableStyleOptions={{
+    isZebra: true,
+  }}
+/> 
+</Unstyled>

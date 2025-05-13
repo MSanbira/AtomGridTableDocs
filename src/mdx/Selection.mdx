@@ -1,0 +1,65 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Selection" />
+
+# Row Selection
+
+AtomGridTable provides built-in functionality for selecting rows.
+
+## Enabling Selection
+
+To enable row selection, use the `isHasSelect` prop:
+
+```jsx
+<AtomGridTable 
+  colOptions={colOptions} 
+  rows={rows} 
+  isHasSelect={true} 
+  selectedRows={selectedRows}
+  setSelected={setSelectedRows}
+/>
+```
+
+## Managing Selected Rows
+
+You need to manage the selected rows state in your component:
+
+```jsx
+import { useState } from 'react';
+import { AtomGridTable } from '@sanbira/atom-grid-table';
+
+function MySelectableTable() {
+  const [selectedRows, setSelectedRows] = useState([]);
+  
+  // Table configuration
+  const colOptions = [/* column definitions */];
+  const rows = [/* row data with selectIdentifier */];
+  
+  return (
+    <AtomGridTable
+      colOptions={colOptions}
+      rows={rows}
+      isHasSelect={true}
+      selectedRows={selectedRows}
+      setSelected={setSelectedRows}
+    />
+  );
+}
+```
+
+## Row Configuration for Selection
+
+Each row should have a `selectIdentifier` prop to uniquely identify it for selection:
+
+```jsx
+const rows = [
+  { 
+    selectIdentifier: 1,
+    cells: [/* cell data */] 
+  },
+  { 
+    selectIdentifier: 2,
+    cells: [/* cell data */] 
+  },
+];
+```

@@ -1,0 +1,88 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Pagination" />
+
+# Pagination
+
+AtomGridTable supports pagination through the `paginationOptions` prop.
+
+## Basic Pagination Setup
+
+```jsx
+import { useState } from 'react';
+import { AtomGridTable } from '@sanbira/atom-grid-table';
+
+function PaginatedTable() {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  
+  const paginationOptions = {
+    rowCount: 100, // Total number of rows in dataset
+    pageSizeOptions: [10, 25, 50], // Available page size options
+    pageSizeKey: 'page_size', // Optional: API parameter name for page size
+    getApiParams: (page, pageSize) => {
+      // Convert to query parameters format for your API
+      return {
+        limit: pageSize,
+        offset: (page - 1) * pageSize
+      };
+    }
+  };
+  
+  // Handle pagination changes
+  const handlePageChange = (pageOptions) => {
+    setPage(pageOptions.page);
+    setPageSize(pageOptions.pageSize);
+    // Make API call with pageOptions.apiParams
+  };
+  
+  return (
+    <AtomGridTable
+      colOptions={colOptions}
+      rows={rows}
+      paginationOptions={paginationOptions}
+      onPageOptionChange={handlePageChange}
+    />
+  );
+}
+```
+
+## Pagination Options
+
+The `paginationOptions` prop accepts the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| rowCount | number | Total number of rows in the dataset |
+| pageSizeOptions | number[] | Available page size options |
+| pageSizeKey | string | API parameter name for page size |
+| getApiParams | (page, pageSize) => unknown | Function to convert pagination to API params |
+
+## Page Change Handler
+
+The `onPageOptionChange` prop accepts a callback function that receives:
+
+```typescript
+type PaginationChangeOptions = {
+  apiParams: PaginationApiParams | unknown;
+  page: number;
+  pageSize: number;
+};
+```
+
+## Combined With Sorting
+
+AtomGridTable's pagination and sorting can work together. Use the `onChange` handler to capture both:
+
+```jsx
+<AtomGridTable
+  // ...other props
+  paginationOptions={paginationOptions}
+  sortingOptions={sortingOptions}
+  onChange={(options) => {
+    console.log('Page options:', options.pageOptions);
+    console.log('Sort options:', options.sortOptions);
+    // Make API call with combined parameters
+  }}
+/>
+``` 

@@ -1,0 +1,148 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/TypeScript Types" />
+
+# TypeScript Types Reference
+
+AtomGridTable comes with comprehensive TypeScript definitions to enhance your development experience.
+
+## Core Types
+
+### TableProps
+
+The main props interface for the AtomGridTable component:
+
+```typescript
+interface TableProps extends TableHandlers {
+  colOptions: ColOption[];
+  rows: TableRow[];
+  className?: string;
+  isLoading?: boolean;
+  selectedRows?: (number | string)[];
+  isHasSelect?: boolean;
+  tableTheme?: string;
+  selectionArea?: string;
+  setSelected?: (selected: (number | string)[]) => void;
+  paginationOptions?: PaginationOptions;
+  sortingOptions?: SortingOptions;
+  tableStyleOptions?: TableStyleOptions;
+}
+```
+
+### ColOption
+
+Defines the configuration for a table column:
+
+```typescript
+interface ColOption {
+  label?: string;
+  tooltip?: string;
+  name?: string;
+  width?: string;
+  resizeOptions?: {
+    min: number;
+    max: number;
+  };
+  isResizable?: boolean;
+  isHeadersColumn?: boolean;
+}
+```
+
+### TableRow
+
+Defines a row in the table:
+
+```typescript
+interface TableRow extends Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
+  cells: (TableCell | undefined)[];
+  isActive?: boolean;
+  selectIdentifier?: number | string;
+  isHeader?: boolean;
+  isSticky?: boolean;
+}
+```
+
+### TableCell
+
+Defines a cell in the table:
+
+```typescript
+interface TableCell extends Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
+  content: ReactNode;
+  span?: number;
+  isOneLine?: boolean;
+  isNumber?: boolean;
+  isHeader?: boolean;
+  isNoPadding?: boolean;
+  isDisabled?: boolean;
+  isCentered?: boolean;
+}
+```
+
+## Style Types
+
+### TableStyleOptions
+
+Controls the visual appearance of the table:
+
+```typescript
+interface TableStyleOptions {
+  isFirstRowHeader?: boolean;
+  isZebra?: boolean;
+  isNoXCellBorders?: boolean;
+  isSmallCellPadding?: boolean;
+  isStickyHeader?: boolean;
+  loaderRowsCount?: number;
+  colorScheme?: "light" | "dark";
+}
+```
+
+## Context API Types
+
+### AtomGridTableContextProps
+
+Used with the Context API provider:
+
+```typescript
+interface AtomGridTableContextProps {
+  isHasContext?: boolean;
+  defaultTableOptions?: Partial<TableProps>;
+  customComponents?: CustomComponents;
+  globalMouseClientX?: number;
+}
+```
+
+## Pagination Types
+
+### PaginationOptions
+
+Configure pagination behavior:
+
+```typescript
+interface PaginationOptions {
+  rowCount?: number;
+  pageSizeOptions?: number[];
+  pageSizeKey?: string;
+  getApiParams?: (page: number, pageSize: number) => unknown;
+}
+```
+
+## Sorting Types
+
+### SortingOptions
+
+Configure sorting behavior:
+
+```typescript
+interface SortingOptions {
+  defaultOrdering?: string;
+  defaultDirection?: SortingDirection | null;
+  resetPage: () => void;
+  getApiParams?: (ordering: string, direction: SortingDirection | null) => unknown;
+}
+
+enum SortingDirection {
+  ASC = "asc",
+  DESC = "desc"
+}
+``` 

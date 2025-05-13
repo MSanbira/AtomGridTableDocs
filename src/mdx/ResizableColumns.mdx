@@ -1,0 +1,95 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Resizable Columns" />
+
+# Resizable Columns
+
+AtomGridTable supports resizable columns, allowing users to adjust column widths.
+
+## Enabling Column Resizing
+
+To make a column resizable, add the `isResizable` property to the column definition:
+
+```jsx
+const colOptions = [
+  { 
+    name: 'id', 
+    label: 'ID', 
+    width: '70px',
+    isResizable: true
+  },
+  // Other columns
+];
+```
+
+## Setting Resize Constraints
+
+You can set minimum and maximum width constraints for resizable columns:
+
+```jsx
+const colOptions = [
+  { 
+    name: 'name', 
+    label: 'Name', 
+    width: '150px',
+    isResizable: true,
+    resizeOptions: {
+      min: 100, // Minimum width in pixels
+      max: 300  // Maximum width in pixels
+    }
+  },
+  // Other columns
+];
+```
+
+## Default Column Width
+
+When setting up resizable columns, it's important to provide an initial width via the `width` property:
+
+```jsx
+const colOptions = [
+  { 
+    name: 'email', 
+    label: 'Email Address', 
+    width: '200px', // Initial width
+    isResizable: true
+  },
+  // Other columns
+];
+```
+
+## Responsive Considerations
+
+When using resizable columns together with responsive tables, consider:
+
+1. Setting appropriate min/max constraints
+2. Using percentage widths for flexible layouts
+3. Testing across different screen sizes
+
+```jsx
+// Example with percentage widths
+const colOptions = [
+  { 
+    name: 'id', 
+    label: 'ID', 
+    width: '10%',
+    isResizable: true,
+    resizeOptions: {
+      min: 50,
+      max: 150
+    }
+  },
+  { 
+    name: 'name', 
+    label: 'Name', 
+    width: '30%',
+    isResizable: true
+  },
+  { 
+    name: 'email', 
+    label: 'Email', 
+    width: '60%',
+    isResizable: true
+  }
+];
+``` 

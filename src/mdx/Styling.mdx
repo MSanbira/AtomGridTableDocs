@@ -1,0 +1,118 @@
+import { Meta, Canvas, Story } from '@storybook/blocks';
+import * as Stories from '../stories/AtomGridTable.stories';
+
+<Meta title="Documentation/Styling" />
+
+# Styling
+
+AtomGridTable offers various options for styling and customization.
+
+## Basic Styling Options
+
+The `tableStyleOptions` prop provides several configuration options:
+
+```jsx
+<AtomGridTable
+  colOptions={colOptions}
+  rows={rows}
+  tableStyleOptions={{
+    isFirstRowHeader: true,     // Styles the first row as a header
+    isZebra: true,              // Applies alternating row colors
+    isNoXCellBorders: false,    // Removes horizontal cell borders
+    isSmallCellPadding: false,  // Reduces cell padding
+    isStickyHeader: true,       // Makes header stick to top during scroll
+    colorScheme: 'light',       // Color theme (light or dark)
+    loaderRowsCount: 5          // Number of skeleton rows during loading
+  }}
+/>
+```
+
+## Example with Styling
+
+<Canvas of={Stories.WithStyling} />
+
+## Custom CSS
+
+You can apply custom CSS using the `className` prop:
+
+```jsx
+<AtomGridTable
+  colOptions={colOptions}
+  rows={rows}
+  className="my-custom-table"
+/>
+```
+
+```css
+/* In your CSS file */
+.my-custom-table {
+  /* Your custom styles */
+  --agt-border-color: #ccc;
+  --agt-header-bg: #f5f5f5;
+  --agt-cell-padding: 12px;
+}
+```
+
+## CSS Variables
+
+AtomGridTable uses CSS variables for theming. You can override these:
+
+```css
+:root {
+  /* Base colors */
+  --agt-border-color: #e0e0e0;
+  --agt-text-color: #333;
+  --agt-bg-color: #fff;
+  
+  /* Header */
+  --agt-header-bg: #f5f5f5;
+  --agt-header-text: #333;
+  
+  /* Rows */
+  --agt-row-hover: #f9f9f9;
+  --agt-row-selected: #e3f2fd;
+  --agt-row-zebra: #f8f8f8;
+  
+  /* Spacing */
+  --agt-cell-padding: 8px 12px;
+  
+  /* Other */
+  --agt-border-radius: 4px;
+}
+```
+
+## Light and Dark Themes
+
+AtomGridTable supports light and dark color schemes:
+
+```jsx
+<AtomGridTable
+  colOptions={colOptions}
+  rows={rows}
+  tableStyleOptions={{
+    colorScheme: 'dark' // Options: 'light' or 'dark'
+  }}
+/>
+```
+
+## Custom Table Theme
+
+You can apply a custom theme name using the `tableTheme` prop:
+
+```jsx
+<AtomGridTable
+  colOptions={colOptions}
+  rows={rows}
+  tableTheme="blue-theme"
+/>
+```
+
+```css
+/* In your CSS file */
+.blue-theme {
+  --agt-border-color: #2196f3;
+  --agt-header-bg: #bbdefb;
+  --agt-header-text: #0d47a1;
+  /* Other variables */
+}
+``` 

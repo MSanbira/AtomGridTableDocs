@@ -3,7 +3,7 @@ import { AtomGridTable } from '@sanbira/atom-grid-table';
 import '@sanbira/atom-grid-table/style.css';
 
 const meta = {
-  title: 'Main/Basic AtomGridTable implementation',
+  title: 'Examples/Basic Examples',
   component: AtomGridTable,
   parameters: {
     layout: 'centered',
@@ -92,9 +92,9 @@ type Story = StoryObj<typeof meta>;
 export const Basic: Story = {
   args: {
     colOptions: [
-      { name: 'id', label: 'ID', width: '70px' },
-      { name: 'name', label: 'Name', width: '130px' },
-      { name: 'email', label: 'Email', width: '200px' },
+      { label: 'id' },
+      { label: 'name', width: '2fr' },
+      { label: 'email', width: '2fr' },
     ],
     rows: [
       { cells: [{ content: '1' }, { content: 'John Doe' }, { content: 'john@example.com' }] },
@@ -112,6 +112,35 @@ export const WithStyling: Story = {
       isZebra: true,
       isStickyHeader: true,
       colorScheme: 'light',
+    },
+  },
+};
+
+export const WithSelection: Story = {
+  args: {
+    ...Basic.args,
+    isHasSelect: true,
+    // In a real app, you would manage this state with useState
+    // and provide a real callback for setSelected
+    selectedRows: ['1'],
+  },
+};
+
+export const WithLoading: Story = {
+  args: {
+    ...Basic.args,
+    isLoading: true,
+    tableStyleOptions: {
+      loaderRowsCount: 3,
+    },
+  },
+};
+
+export const WithSorting: Story = {
+  args: {
+    ...Basic.args,
+    sortingOptions: {
+      // No configuration needed for basic sorting
     },
   },
 };

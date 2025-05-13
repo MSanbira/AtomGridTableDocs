@@ -1,0 +1,98 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Base Components" />
+
+# Base Components
+
+AtomGridTable uses several base components internally, which can be customized via the Context API.
+
+## Tooltip
+
+The tooltip component is used to display additional information on hover:
+
+```typescript
+interface TooltipProps {
+  title: string | number;
+  children: ReactElement;
+}
+```
+
+Default behavior: Shows a simple tooltip with the provided title when hovering over its children.
+
+## Checkbox
+
+The checkbox component is used for row selection:
+
+```typescript
+interface CheckboxProps {
+  checked?: boolean;
+  onClick?: (e: React.MouseEvent, value: boolean) => void;
+  className?: string;
+  indeterminate?: boolean;
+  disabled?: boolean;
+}
+```
+
+Default behavior: A standard checkbox with indeterminate state support for the "select all" checkbox.
+
+## Select
+
+The select component is used for pagination page size selection:
+
+```typescript
+interface SelectProps extends ComponentProps<"select"> {
+  options: SelectOption[];
+}
+
+type SelectOption = {
+  label?: string;
+  value: string;
+};
+```
+
+Default behavior: A standard HTML select with options from the provided array.
+
+## Typography
+
+The typography component is used for text rendering:
+
+```typescript
+interface TypographyProps extends React.HTMLAttributes<HTMLHeadingElement | HTMLParagraphElement> {
+  children: React.ReactNode;
+  variant?: TypographyVariantOptions;
+  color?: TypographyColorOptions;
+  underline?: boolean;
+  balanced?: boolean;
+  bold?: boolean;
+  lowOpacity?: boolean;
+}
+
+type TypographyVariantOptions = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "body1" | "body2";
+type TypographyColorOptions = "primary" | "secondary" | "tertiary" | "error" | "warning" | "active" | "success";
+```
+
+Default behavior: Renders text with appropriate HTML elements based on the variant.
+
+## Skeleton
+
+The skeleton component is used for loading states:
+
+```typescript
+interface SkeletonProps {
+  // No specific props in base implementation
+}
+```
+
+Default behavior: Displays an animated loading placeholder.
+
+## IconButton
+
+The icon button component is used for interactive icons:
+
+```typescript
+interface IconButtonProps extends ComponentProps<"button"> {
+  icon: React.ReactNode;
+}
+```
+
+Default behavior: A button styled to display an icon with appropriate hover states. 

@@ -1,0 +1,177 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation/Material-UI Integration" />
+
+# Material-UI Integration
+
+AtomGridTable can be integrated with Material-UI components through the Context API. This example shows how to replace the default components with Material-UI components.
+
+## Full Example
+
+```jsx
+import React from 'react';
+import { AtomGridTableProvider, AtomGridTable } from '@sanbira/atom-grid-table';
+import '@sanbira/atom-grid-table/style.css';
+import { 
+  Tooltip, 
+  Checkbox, 
+  Select, 
+  MenuItem, 
+  FormControl, 
+  Typography, 
+  Skeleton, 
+  IconButton 
+} from '@mui/material';
+
+function MUITableExample() {
+  // Define custom components using Material-UI
+  const customComponents = {
+    tooltip: ({ title, children }) => (
+      <Tooltip title={title} arrow>
+        {children}
+      </Tooltip>
+    ),
+    
+    checkbox: ({ checked, onClick, indeterminate, disabled }) => (
+      <Checkbox
+        checked={checked}
+        onChange={(e) => onClick?.(e, !checked)}
+        indeterminate={indeterminate}
+        disabled={disabled}
+        size="small"
+        color="primary"
+      />
+    ),
+    
+    select: ({ options, value, onChange, ...props }) => (
+      <FormControl size="small" variant="outlined">
+        <Select
+          value={value}
+          onChange={onChange}
+          {...props}
+        >
+          {options.map(option => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label || option.value}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    ),
+    
+    typography: ({ variant, children, color, ...props }) => {
+      // Map AGT typography variants to MUI variants
+      const variantMap = {
+        'h1': 'h4',
+        'h2': 'h5',
+        'h3': 'h6',
+        'h4': 'subtitle1',
+        'h5': 'subtitle2',
+        'h6': 'subtitle2',
+        'body1': 'body1',
+        'body2': 'body2',
+      };
+      
+      // Map AGT colors to MUI colors
+      const colorMap = {
+        'primary': 'primary',
+        'secondary': 'secondary',
+        'tertiary': 'textSecondary',
+        'error': 'error',
+        'warning': 'warning',
+        'active': 'primary',
+        'success': 'success',
+      };
+      
+      return (
+        <Typography 
+          variant={variantMap[variant] || 'body1'} 
+          color={color ? colorMap[color] : undefined}
+          {...props}
+        >
+          {children}
+        </Typography>
+      );
+    },
+    
+    skeleton: () => (
+      <Skeleton animation="wave" height={24} />
+    ),
+    
+    iconButton: ({ icon, ...props }) => (
+      <IconButton size="small" {...props}>
+        {icon}
+      </IconButton>
+    ),
+  };
+
+  // Sample data
+  const colOptions = [
+    { name: 'id', label: 'ID', width: '70px' },
+    { name: 'name', label: 'Name', width: '130px' },
+    { name: 'email', label: 'Email', width: '200px' },
+  ];
+  
+  const rows = [
+    { 
+      selectIdentifier: 1,
+      cells: [
+        { content: '1' }, 
+        { content: 'John Doe' }, 
+        { content: 'john@example.com' },
+      ] 
+    },
+    { 
+      selectIdentifier: 2,
+      cells: [
+        { content: '2' }, 
+        { content: 'Jane Smith' }, 
+        { content: 'jane@example.com' },
+      ] 
+    },
+  ];
+
+  return (
+    <AtomGridTableProvider customComponents={customComponents}>
+      <AtomGridTable
+        colOptions={colOptions}
+        rows={rows}
+        isHasSelect={true}
+        tableStyleOptions={{
+          isFirstRowHeader: true,
+          isZebra: true,
+        }}
+      />
+    </AtomGridTableProvider>
+  );
+}
+```
+
+## Implementation Steps
+
+1. Import Material-UI components
+2. Create a mapping for each base component
+3. Create the customComponents object
+4. Wrap your app with the AtomGridTableProvider
+5. Use AtomGridTable as usual
+
+## Component Mappings
+
+Each AtomGridTable base component has a corresponding Material-UI component:
+
+| AtomGridTable Component | Material-UI Component |
+|------------------------|------------------------|
+| tooltip | Tooltip |
+| checkbox | Checkbox |
+| select | Select + MenuItem + FormControl |
+| typography | Typography |
+| skeleton | Skeleton |
+| iconButton | IconButton |
+
+## Styling Considerations
+
+When using Material-UI components, consider:
+
+1. Theme consistency between MUI and AtomGridTable
+2. Size adjustments for components like checkboxes and buttons
+3. Color mapping from AtomGridTable to Material-UI's palette 

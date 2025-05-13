@@ -1,0 +1,153 @@
+import { Meta, Canvas, Unstyled } from '@storybook/blocks';
+import * as Stories from '../stories/AtomGridTable.stories';
+import { AtomGridTable } from '@sanbira/atom-grid-table';
+
+<Meta title="Documentation/Sorting" />
+
+# Sorting
+
+AtomGridTable provides built-in sorting functionality through the `sortingOptions` prop.
+
+## Important Note
+
+For sorting to work correctly, you must include the `name` property in your column definitions. This property is used as an identifier when sorting columns:
+
+```jsx
+const colOptions = [
+  { name: 'id', label: 'ID' },           // Can be sorted by 'id'
+  { name: 'name', label: 'Name' },       // Can be sorted by 'name'
+  { name: 'email', label: 'Email' },     // Can be sorted by 'email'
+  { label: 'Actions' }                   // Cannot be sorted (no name property)
+];
+```
+
+## Simple Sorting Example
+
+The most basic way to enable sorting is to simply include the `name` property in your column definitions. AtomGridTable will automatically enable sorting without any additional configuration:
+
+```jsx
+<AtomGridTable
+  colOptions={[
+    { name: 'id', label: 'ID' },           // Sortable column
+    { name: 'name', label: 'Name' },       // Sortable column
+    { name: 'email', label: 'Email' },     // Sortable column
+  ]}
+  rows={rows}
+  // No sortingOptions configuration needed for basic sorting
+/>
+```
+
+This enables the default click-to-sort functionality on column headers:
+
+<Canvas of={Stories.WithSorting} />
+
+> **Note:** If you're using pagination with sorting and don't provide a `resetPage` function in `sortingOptions`, AtomGridTable will automatically reset the page to the first page `0` when sorting changes. This prevents users from seeing empty pages when sorting changes the order of items.
+
+### Default API Parameters Structure
+
+If you don't provide a custom `getApiParams` function in your `sortingOptions`, AtomGridTable generates API parameters with the following structure:
+
+- When no sorting is applied: `{ ordering: undefined }`
+- For ascending sort on a column named 'name': `{ ordering: 'name' }`
+- For descending sort on a column named 'name': `{ ordering: '-name' }`
+
+This format works well with many backend APIs, especially those built with Django and similar frameworks.
+
+## Advanced Sorting Setup
+
+For more control over sorting, including custom API integration:
+
+```jsx
+import { useState } from 'react';
+import { AtomGridTable, SortingDirection } from '@sanbira/atom-grid-table';
+
+function SortableTable() {
+  const [page, setPage] = useState(1);
+  
+  const sortingOptions = {
+    defaultOrdering: 'name', // Default column to sort by
+    defaultDirection: SortingDirection.ASC, // Default direction (ASC or DESC)
+    resetPage: () => setPage(1), // Reset page when sorting changes
+    getApiParams: (ordering, direction) => {
+      // Custom format different from the default structure
+      if (!direction || !ordering) {
+        return { sort: null, order: null };
+      }
+      
+      return {
+        sort: ordering,
+        order: direction === SortingDirection.ASC ? 'asc' : 'desc'
+      };
+    }
+  };
+  
+  // Handle sorting changes
+  const handleSortChange = (sortOptions) => {
+    console.log('Sort changed:', sortOptions.apiParams);
+    // This will log: { sort: 'name', order: 'asc' } or { sort: 'name', order: 'desc' }
+    
+    // Make API call with sortOptions.apiParams, for example:
+    // fetchData({ ...paginationParams, ...sortOptions.apiParams })
+  };
+  
+  return (
+    <AtomGridTable
+      colOptions={colOptions}
+      rows={rows}
+      sortingOptions={sortingOptions}
+      onSortOptionChange={handleSortChange}
+    />
+  );
+}
+```
+
+## Sorting Options
+
+The `sortingOptions` prop accepts the following properties:
+
+<Unstyled>
+  <AtomGridTable 
+    colOptions={[
+      { label: 'Property', width: '1fr' },
+      { label: 'Type', width: '1fr' },
+      { label: 'Description', width: '2fr' },
+    ]}
+    rows={[
+      { cells: [
+        { content: 'defaultOrdering' }, 
+        { content: 'string' }, 
+        { content: 'Default column name to sort by' }
+      ]},
+      { cells: [
+        { content: 'defaultDirection' }, 
+        { content: 'SortingDirection | null' }, 
+        { content: 'Default direction (ASC or DESC) or null for unsorted' }
+      ]},
+      { cells: [
+        { content: 'resetPage' }, 
+        { content: '() => void' }, 
+        { content: 'Function to reset page when sorting changes' }
+      ]},
+      { cells: [
+        { content: 'getApiParams' }, 
+        { content: '(ordering, direction) => unknown' }, 
+        { content: 'Function to convert sorting to API params' }
+      ]},
+    ]}
+    tableStyleOptions={{
+      isZebra: true,
+    }}
+  />
+</Unstyled>
+
+## Sort Change Handler
+
+The `onSortOptionChange` prop accepts a callback function that receives:
+
+```typescript
+type SortingChangeOptions = {
+  apiParams: SortingApiParams | unknown;
+  ordering: string;
+  direction: SortingDirection | null;
+};
+``` 

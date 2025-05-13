@@ -1,13 +1,14 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { AtomGridTable } from '@sanbira/atom-grid-table';
-import '@sanbira/atom-grid-table/style.css';
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { AtomGridTable, AtomGridTableProvider, type TableProps, type CustomComponents } from "@sanbira/atom-grid-table";
+import "@sanbira/atom-grid-table/style.css";
+import { Skeleton, Tooltip, Typography } from "@mui/material";
 
 const meta = {
-  title: 'Examples/Advanced Examples',
+  title: "Examples/Advanced Examples",
   component: AtomGridTable,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
 } satisfies Meta<typeof AtomGridTable>;
 
@@ -16,63 +17,63 @@ type Story = StoryObj<typeof meta>;
 
 // Sample data for examples
 const sampleColumns = [
-  { name: 'id', label: 'ID', width: '100px' },
-  { name: 'name', label: 'Name', width: '130px', isResizable: true, resizeOptions: { min: 100, max: 300 } },
-  { name: 'email', label: 'Email', width: '200px', isResizable: true },
-  { name: 'role', label: 'Role', width: '120px' },
-  { name: 'status', label: 'Status', width: '100px' },
+  { name: "id", label: "ID", width: "100px" },
+  { name: "name", label: "Name", width: "130px", isResizable: true, resizeOptions: { min: 100, max: 300 } },
+  { name: "email", label: "Email", width: "200px", isResizable: true },
+  { name: "role", label: "Role", width: "120px" },
+  { name: "status", label: "Status", width: "100px" },
 ];
 
 const sampleRows = [
-  { 
+  {
     selectIdentifier: 1,
     cells: [
-      { content: '1' }, 
-      { content: 'John Doe' }, 
-      { content: 'john@example.com' },
-      { content: 'Admin' },
-      { content: 'Active' },
-    ] 
+      { content: "1" },
+      { content: "John Doe" },
+      { content: "john@example.com" },
+      { content: "Admin" },
+      { content: "Active" },
+    ],
   },
-  { 
+  {
     selectIdentifier: 2,
     cells: [
-      { content: '2' }, 
-      { content: 'Jane Smith' }, 
-      { content: 'jane@example.com' },
-      { content: 'Editor' },
-      { content: 'Active' },
-    ] 
+      { content: "2" },
+      { content: "Jane Smith" },
+      { content: "jane@example.com" },
+      { content: "Editor" },
+      { content: "Active" },
+    ],
   },
-  { 
+  {
     selectIdentifier: 3,
     cells: [
-      { content: '3' }, 
-      { content: 'Bob Johnson' }, 
-      { content: 'bob@example.com' },
-      { content: 'Viewer' },
-      { content: 'Inactive' },
-    ] 
+      { content: "3" },
+      { content: "Bob Johnson" },
+      { content: "bob@example.com" },
+      { content: "Viewer" },
+      { content: "Inactive" },
+    ],
   },
-  { 
+  {
     selectIdentifier: 4,
     cells: [
-      { content: '4' }, 
-      { content: 'Alice Brown' }, 
-      { content: 'alice@example.com' },
-      { content: 'Editor' },
-      { content: 'Active' },
-    ] 
+      { content: "4" },
+      { content: "Alice Brown" },
+      { content: "alice@example.com" },
+      { content: "Editor" },
+      { content: "Active" },
+    ],
   },
-  { 
+  {
     selectIdentifier: 5,
     cells: [
-      { content: '5' }, 
-      { content: 'Charlie Wilson' }, 
-      { content: 'charlie@example.com' },
-      { content: 'Viewer' },
-      { content: 'Active' },
-    ] 
+      { content: "5" },
+      { content: "Charlie Wilson" },
+      { content: "charlie@example.com" },
+      { content: "Viewer" },
+      { content: "Active" },
+    ],
   },
 ];
 
@@ -94,7 +95,7 @@ export const DarkTheme: Story = {
     tableStyleOptions: {
       isZebra: true,
       isStickyHeader: true,
-      colorScheme: 'dark',
+      colorScheme: "dark",
     },
   },
 };
@@ -118,43 +119,27 @@ export const CombinedFeatures: Story = {
 
 // Create a separate React component for the SelectionExample story
 const SelectionExampleComponent = () => {
-  const [selectedRows, setSelectedRows] = useState<(string | number)[]>(['1', '3']);
-  
+  const [selectedRows, setSelectedRows] = useState<(string | number)[]>(["1", "3"]);
+
   return (
     <>
-      <div style={{ marginBottom: '10px' }}>
-        <strong>Selected row IDs:</strong> {selectedRows.join(', ') || 'none'}
+      <div style={{ marginBottom: "10px" }}>
+        <strong>Selected row IDs:</strong> {selectedRows.join(", ") || "none"}
       </div>
       <AtomGridTable
-        colOptions={[
-          { label: 'ID' },
-          { label: 'Name', width: '2fr' },
-          { label: 'Email', width: '2fr' },
-        ]}
+        colOptions={[{ label: "ID" }, { label: "Name", width: "2fr" }, { label: "Email", width: "2fr" }]}
         rows={[
-          { 
-            selectIdentifier: '1',
-            cells: [
-              { content: '1' }, 
-              { content: 'John Doe' }, 
-              { content: 'john@example.com' }
-            ] 
+          {
+            selectIdentifier: "1",
+            cells: [{ content: "1" }, { content: "John Doe" }, { content: "john@example.com" }],
           },
-          { 
-            selectIdentifier: '2',
-            cells: [
-              { content: '2' }, 
-              { content: 'Jane Smith' }, 
-              { content: 'jane@example.com' }
-            ] 
+          {
+            selectIdentifier: "2",
+            cells: [{ content: "2" }, { content: "Jane Smith" }, { content: "jane@example.com" }],
           },
-          { 
-            selectIdentifier: '3',
-            cells: [
-              { content: '3' }, 
-              { content: 'Bob Johnson' }, 
-              { content: 'bob@example.com' }
-            ] 
+          {
+            selectIdentifier: "3",
+            cells: [{ content: "3" }, { content: "Bob Johnson" }, { content: "bob@example.com" }],
           },
         ]}
         isHasSelect={true}
@@ -168,35 +153,19 @@ const SelectionExampleComponent = () => {
 export const SelectionExample: StoryObj<typeof meta> = {
   render: () => <SelectionExampleComponent />,
   args: {
-    colOptions: [
-      { label: 'ID' },
-      { label: 'Name', width: '2fr' },
-      { label: 'Email', width: '2fr' },
-    ],
+    colOptions: [{ label: "ID" }, { label: "Name", width: "2fr" }, { label: "Email", width: "2fr" }],
     rows: [
-      { 
-        selectIdentifier: '1',
-        cells: [
-          { content: '1' }, 
-          { content: 'John Doe' }, 
-          { content: 'john@example.com' }
-        ] 
+      {
+        selectIdentifier: "1",
+        cells: [{ content: "1" }, { content: "John Doe" }, { content: "john@example.com" }],
       },
-      { 
-        selectIdentifier: '2',
-        cells: [
-          { content: '2' }, 
-          { content: 'Jane Smith' }, 
-          { content: 'jane@example.com' }
-        ] 
+      {
+        selectIdentifier: "2",
+        cells: [{ content: "2" }, { content: "Jane Smith" }, { content: "jane@example.com" }],
       },
-      { 
-        selectIdentifier: '3',
-        cells: [
-          { content: '3' }, 
-          { content: 'Bob Johnson' }, 
-          { content: 'bob@example.com' }
-        ] 
+      {
+        selectIdentifier: "3",
+        cells: [{ content: "3" }, { content: "Bob Johnson" }, { content: "bob@example.com" }],
       },
     ],
     isHasSelect: true,
@@ -256,8 +225,164 @@ const SelectionExample = () => {
     </>
   );
 };
-        `
-      }
-    }
-  }
-}; 
+        `,
+      },
+    },
+  },
+};
+
+// Create a component with AtomGridTable wrapped in AtomGridTableProvider
+const ContextExampleComponent = (props: {
+  defaultTableOptions?: Partial<TableProps>;
+  customComponents?: CustomComponents;
+  agtProps?: Partial<TableProps>;
+}) => {
+  const { defaultTableOptions, customComponents, agtProps } = props;
+
+  return (
+    <AtomGridTableProvider defaultTableOptions={defaultTableOptions} customComponents={customComponents}>
+      <AtomGridTable
+        colOptions={[{ label: "ID" }, { label: "Name", width: "2fr" }, { label: "Email", width: "2fr" }]}
+        rows={[
+          { cells: [{ content: "1" }, { content: "John Doe" }, { content: "john@example.com" }] },
+          { cells: [{ content: "2" }, { content: "Jane Smith" }, { content: "jane@example.com" }] },
+          { cells: [{ content: "3" }, { content: "Bob Johnson" }, { content: "bob@example.com" }] },
+        ]}
+        {...agtProps}
+      />
+    </AtomGridTableProvider>
+  );
+};
+
+export const ContextExample: StoryObj<typeof meta> = {
+  render: () => (
+    <ContextExampleComponent
+      defaultTableOptions={{
+        tableStyleOptions: {
+          isZebra: true,
+          isStickyHeader: true,
+          isNoXCellBorders: true,
+        },
+      }}
+    />
+  ),
+  args: {
+    colOptions: [{ label: "ID" }, { label: "Name", width: "2fr" }, { label: "Email", width: "2fr" }],
+    rows: [
+      { cells: [{ content: "1" }, { content: "John Doe" }, { content: "john@example.com" }] },
+      { cells: [{ content: "2" }, { content: "Jane Smith" }, { content: "jane@example.com" }] },
+      { cells: [{ content: "3" }, { content: "Bob Johnson" }, { content: "bob@example.com" }] },
+    ],
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+import { AtomGridTable, AtomGridTableProvider } from '@sanbira/atom-grid-table';
+
+const ContextExample = () => {
+  return (
+    <AtomGridTableProvider 
+      defaultTableOptions={{
+        tableStyleOptions: {
+          isZebra: true,
+          isStickyHeader: true,
+          isNoXCellBorders: true
+        }
+      }}
+    >
+      <AtomGridTable
+        colOptions={[
+          { label: 'ID' },
+          { label: 'Name', width: '2fr' },
+          { label: 'Email', width: '2fr' },
+        ]}
+        rows={[
+          { cells: [{ content: '1' }, { content: 'John Doe' }, { content: 'john@example.com' }] },
+          { cells: [{ content: '2' }, { content: 'Jane Smith' }, { content: 'jane@example.com' }] },
+          { cells: [{ content: '3' }, { content: 'Bob Johnson' }, { content: 'bob@example.com' }] },
+        ]}
+      />
+    </AtomGridTableProvider>
+  );
+};
+        `,
+      },
+    },
+  },
+};
+
+export const MUIComponentsExample: StoryObj<typeof meta> = {
+  render: () => (
+    <ContextExampleComponent
+      defaultTableOptions={{
+        tableStyleOptions: {
+          loaderRowsCount: 3,
+        },
+      }}
+      customComponents={{
+        tooltip: Tooltip,
+        typography: Typography,
+        skeleton: Skeleton,
+        // iconButton: IconButton,
+        // select: Select,
+        // checkbox: Checkbox,
+      }}
+      agtProps={{
+        colOptions: [
+          { label: "ID", tooltip: "This is a tooltip!" },
+          { label: "Name", width: "2fr" },
+          { label: "Email", width: "2fr" },
+        ],
+      }}
+    />
+  ),
+  args: {
+    colOptions: [
+      { label: "ID", tooltip: "This is a tooltip!" },
+      { label: "Name", width: "2fr" },
+      { label: "Email", width: "2fr" },
+    ],
+    rows: [
+      { cells: [{ content: "1" }, { content: "John Doe" }, { content: "john@example.com" }] },
+      { cells: [{ content: "2" }, { content: "Jane Smith" }, { content: "jane@example.com" }] },
+      { cells: [{ content: "3" }, { content: "Bob Johnson" }, { content: "bob@example.com" }] },
+    ],
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+import { AtomGridTable, AtomGridTableProvider } from '@sanbira/atom-grid-table';
+
+const ContextExample = () => {
+  return (
+    <AtomGridTableProvider 
+      defaultTableOptions={{
+        tableStyleOptions: {
+          isZebra: true,
+          isStickyHeader: true,
+          isNoXCellBorders: true
+        }
+      }}
+    >
+      <AtomGridTable
+        colOptions={[
+          { label: 'ID' },
+          { label: 'Name', width: '2fr' },
+          { label: 'Email', width: '2fr' },
+        ]}
+        rows={[
+          { cells: [{ content: '1' }, { content: 'John Doe' }, { content: 'john@example.com' }] },
+          { cells: [{ content: '2' }, { content: 'Jane Smith' }, { content: 'jane@example.com' }] },
+          { cells: [{ content: '3' }, { content: 'Bob Johnson' }, { content: 'bob@example.com' }] },
+        ]}
+      />
+    </AtomGridTableProvider>
+  );
+};
+        `,
+      },
+    },
+  },
+};

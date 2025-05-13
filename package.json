@@ -9,14 +9,21 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "start": "node server.js",
+    "heroku-postbuild": "npm run build-storybook"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
-    "@sanbira/atom-grid-table": "file:../AtomGridTable/sanbira-atom-grid-table-1.0.8.tgz",
+    "@sanbira/atom-grid-table": "1.0.8",
+    "express": "^4.18.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

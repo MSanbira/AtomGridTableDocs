@@ -1,4 +1,6 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Canvas, Unstyled } from '@storybook/blocks';
+import * as Stories from '../stories/AtomGridTable.stories';
+import { AtomGridTable } from '@sanbira/atom-grid-table';
 
 <Meta title="Documentation/Pagination" />
 
@@ -6,7 +8,73 @@ import { Meta } from '@storybook/blocks';
 
 AtomGridTable supports pagination through the `paginationOptions` prop.
 
-## Basic Pagination Setup
+## Simple Pagination Example
+
+The simplest way to enable pagination is to set the `isPagination` prop to `true`:
+
+```jsx
+<AtomGridTable
+  colOptions={colOptions}
+  rows={rows}
+  isPagination={true}
+/>
+```
+
+This enables the standard pagination controls at the bottom of the table with default settings:
+
+<Canvas of={Stories.WithPagination} />
+
+For more control over pagination behavior, you can provide a `paginationOptions` object:
+
+```jsx
+<AtomGridTable
+  colOptions={colOptions}
+  rows={rows}
+  paginationOptions={{
+    rowCount: 100,                   // Total number of rows in the dataset
+    pageSizeOptions: [5, 10, 25]     // Available page size options
+  }}
+/>
+```
+
+### Using isPagination vs paginationOptions
+
+- `isPagination={true}` is the simplest way to enable pagination with default settings
+- `paginationOptions` gives you more control over pagination behavior
+
+> **Important:** While `paginationOptions` isn't strictly required, it's **highly recommended** to at least set the `rowCount` property when using pagination with server data. Without it, AtomGridTable cannot correctly calculate the total number of pages.
+
+```jsx
+<AtomGridTable
+  colOptions={colOptions}
+  rows={currentPageRows} // Just the rows for the current page
+  isPagination={true}
+  paginationOptions={{
+    rowCount: 100, // Total number of rows across all pages
+  }}
+/>
+```
+
+When you use `isPagination={true}` without `paginationOptions`, AtomGridTable will:
+- Show page controls based only on the current rows array length
+- Use default page size options ([10, 25, 50, 100])
+- Use the default API parameter structure
+
+This may work for client-side pagination, but for server-side pagination, you should always provide the total row count.
+
+### Default API Parameters Structure
+
+If you don't provide a custom `getApiParams` function in your `paginationOptions`, AtomGridTable generates API parameters with the following structure:
+
+- For page 1 with page size 10: `{ limit: 10, offset: 0 }`
+- For page 2 with page size 10: `{ limit: 10, offset: 10 }`
+- For page 3 with page size 25: `{ limit: 25, offset: 50 }`
+
+This format works well with many backend APIs that use limit/offset pagination.
+
+## Advanced Pagination Setup
+
+For more control over pagination, including custom API integration:
 
 ```jsx
 import { useState } from 'react';
@@ -21,10 +89,11 @@ function PaginatedTable() {
     pageSizeOptions: [10, 25, 50], // Available page size options
     pageSizeKey: 'page_size', // Optional: API parameter name for page size
     getApiParams: (page, pageSize) => {
-      // Convert to query parameters format for your API
+      // Custom API parameters structure
       return {
-        limit: pageSize,
-        offset: (page - 1) * pageSize
+        page: page, // Use page number directly instead of calculating offset
+        page_size: pageSize,
+        include_total: true
       };
     }
   };
@@ -33,6 +102,9 @@ function PaginatedTable() {
   const handlePageChange = (pageOptions) => {
     setPage(pageOptions.page);
     setPageSize(pageOptions.pageSize);
+    console.log('Pagination changed:', pageOptions.apiParams);
+    // This will log: { page: 2, page_size: 10, include_total: true }
+    
     // Make API call with pageOptions.apiParams
   };
   
@@ -51,12 +123,40 @@ function PaginatedTable() {
 
 The `paginationOptions` prop accepts the following properties:
 
-| Property | Type | Description |
-|----------|------|-------------|
-| rowCount | number | Total number of rows in the dataset |
-| pageSizeOptions | number[] | Available page size options |
-| pageSizeKey | string | API parameter name for page size |
-| getApiParams | (page, pageSize) => unknown | Function to convert pagination to API params |
+<Unstyled>
+  <AtomGridTable 
+    colOptions={[
+      { label: 'Property', width: '1fr' },
+      { label: 'Type', width: '1fr' },
+      { label: 'Description', width: '2fr' },
+    ]}
+    rows={[
+      { cells: [
+        { content: 'rowCount' }, 
+        { content: 'number' }, 
+        { content: 'Total number of rows in the dataset' }
+      ]},
+      { cells: [
+        { content: 'pageSizeOptions' }, 
+        { content: 'number[]' }, 
+        { content: 'Available page size options for the user to select' }
+      ]},
+      { cells: [
+        { content: 'pageSizeKey' }, 
+        { content: 'string' }, 
+        { content: 'Optional: API parameter name for page size' }
+      ]},
+      { cells: [
+        { content: 'getApiParams' }, 
+        { content: '(page, pageSize) => unknown' }, 
+        { content: 'Optional: Function to convert pagination to custom API params' }
+      ]},
+    ]}
+    tableStyleOptions={{
+      isZebra: true,
+    }}
+  />
+</Unstyled>
 
 ## Page Change Handler
 
@@ -82,7 +182,12 @@ AtomGridTable's pagination and sorting can work together. Use the `onChange` han
   onChange={(options) => {
     console.log('Page options:', options.pageOptions);
     console.log('Sort options:', options.sortOptions);
+
     // Make API call with combined parameters
   }}
 />
 ``` 
+
+This approach allows you to handle both sorting and pagination changes in a single callback, making it easier to manage API requests with multiple parameters. When the user changes either the sort order or the page, the `onChange` handler will be called with updated information for both.
+
+> **Note:** When using sorting with pagination, consider how sorting affects pagination. By default, AtomGridTable will reset to the first page when sorting changes to prevent showing empty pages. This behavior can be customized by providing a custom `resetPage` function in your `sortingOptions`. 

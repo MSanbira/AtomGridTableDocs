@@ -150,4 +150,26 @@ type SortingChangeOptions = {
   ordering: string;
   direction: SortingDirection | null;
 };
-``` 
+```
+
+## Combined With Pagination
+
+AtomGridTable's sorting and pagination features can work together seamlessly. Instead of handling sorting and pagination changes separately, you can use the `onChange` handler to capture both:
+
+```jsx
+<AtomGridTable
+  // ...other props
+  sortingOptions={sortingOptions}
+  paginationOptions={paginationOptions}
+  onChange={(options) => {
+    console.log('Sort options:', options.sortOptions);
+    console.log('Page options:', options.pageOptions);
+    
+    // Make API call with combined parameters
+  }}
+/>
+```
+
+This approach allows you to handle both sorting and pagination changes in a single callback, making it easier to manage API requests with multiple parameters. When the user changes either the sort order or the page, the `onChange` handler will be called with updated information for both.
+
+> **Note:** When using sorting with pagination, consider how sorting affects pagination. By default, AtomGridTable will reset to the first page when sorting changes to prevent showing empty pages. This behavior can be customized by providing a custom `resetPage` function in your `sortingOptions`. 

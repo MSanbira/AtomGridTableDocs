@@ -136,6 +136,13 @@ export const WithLoading: Story = {
   },
 };
 
+export const WithPagination: Story = {
+  args: {
+    ...Basic.args,
+    isPagination: true // Simplest way to enable pagination
+  },
+};
+
 export const WithSorting: Story = {
   args: {
     ...Basic.args,

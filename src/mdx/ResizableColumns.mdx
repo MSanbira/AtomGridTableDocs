@@ -1,4 +1,6 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Canvas, Unstyled } from '@storybook/blocks';
+import * as Stories from '../stories/AdvancedExamples.stories';
+import { AtomGridTable } from '@sanbira/atom-grid-table';
 
 <Meta title="Documentation/Resizable Columns" />
 
@@ -13,23 +15,35 @@ To make a column resizable, add the `isResizable` property to the column definit
 ```jsx
 const colOptions = [
   { 
-    name: 'id', 
     label: 'ID', 
-    width: '70px',
     isResizable: true
   },
   // Other columns
 ];
 ```
 
-## Setting Resize Constraints
+This adds resize handles to the column headers, allowing users to drag and adjust column widths:
 
-You can set minimum and maximum width constraints for resizable columns:
+<Canvas of={Stories.ResizableColumns} />
+
+## Default Resize Constraints
+
+AtomGridTable has built-in default constraints for column resizing:
+
+```jsx
+// Default resize options built into AtomGridTable
+export const DefaultResizeOptions = { min: 100, max: 800 };
+```
+
+If you don't specify custom `resizeOptions`, these defaults will be applied to all resizable columns.
+
+## Custom Resize Constraints
+
+You can override the default constraints by providing custom `resizeOptions`:
 
 ```jsx
 const colOptions = [
   { 
-    name: 'name', 
     label: 'Name', 
     width: '150px',
     isResizable: true,
@@ -42,14 +56,42 @@ const colOptions = [
 ];
 ```
 
-## Default Column Width
+## Resize Options Reference
+
+The `resizeOptions` object accepts the following properties:
+
+<Unstyled>
+  <AtomGridTable 
+    colOptions={[
+      { label: 'Property', width: '1fr' },
+      { label: 'Type', width: '1fr' },
+      { label: 'Description', width: '2fr' },
+    ]}
+    rows={[
+      { cells: [
+        { content: 'min' }, 
+        { content: 'number' }, 
+        { content: 'Minimum width in pixels (default: 100)' }
+      ]},
+      { cells: [
+        { content: 'max' }, 
+        { content: 'number' }, 
+        { content: 'Maximum width in pixels (default: 800)' }
+      ]},
+    ]}
+    tableStyleOptions={{
+      isZebra: true,
+    }}
+  />
+</Unstyled>
+
+## Initial Column Width
 
 When setting up resizable columns, it's important to provide an initial width via the `width` property:
 
 ```jsx
 const colOptions = [
   { 
-    name: 'email', 
     label: 'Email Address', 
     width: '200px', // Initial width
     isResizable: true
@@ -63,16 +105,15 @@ const colOptions = [
 When using resizable columns together with responsive tables, consider:
 
 1. Setting appropriate min/max constraints
-2. Using percentage widths for flexible layouts
+2. Using grid fraction (fr) units for flexible layouts
 3. Testing across different screen sizes
 
 ```jsx
-// Example with percentage widths
+// Example with grid fraction (fr) units
 const colOptions = [
   { 
-    name: 'id', 
     label: 'ID', 
-    width: '10%',
+    width: '1fr',
     isResizable: true,
     resizeOptions: {
       min: 50,
@@ -80,16 +121,27 @@ const colOptions = [
     }
   },
   { 
-    name: 'name', 
     label: 'Name', 
-    width: '30%',
+    width: '3fr',
     isResizable: true
   },
   { 
-    name: 'email', 
     label: 'Email', 
-    width: '60%',
+    width: '6fr',
     isResizable: true
   }
 ];
-``` 
+```
+
+Using `fr` units allows columns to maintain their relative proportions as the table width changes. For example, in the configuration above:
+
+- The ID column gets 1 part (1/10) of the available space
+- The Name column gets 3 parts (3/10) of the available space
+- The Email column gets 6 parts (6/10) of the available space
+
+## Best Practices
+
+- Always set an initial width for resizable columns
+- Use reasonable min/max constraints that make sense for the content
+- Consider the overall table layout when setting constraints
+- Test resizing behavior with different screen sizes and content lengths

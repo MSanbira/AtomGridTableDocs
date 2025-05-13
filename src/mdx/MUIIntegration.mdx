@@ -140,6 +140,7 @@ function MUITableExample() {
         tableStyleOptions={{
           isFirstRowHeader: true,
           isZebra: true,
+          colorScheme: "light"
         }}
       />
     </AtomGridTableProvider>
@@ -175,3 +176,27 @@ When using Material-UI components, consider:
 1. Theme consistency between MUI and AtomGridTable
 2. Size adjustments for components like checkboxes and buttons
 3. Color mapping from AtomGridTable to Material-UI's palette 
+
+## Dark Mode Integration
+
+AtomGridTable supports both light and dark modes through the `colorScheme` option in `tableStyleOptions`. This is particularly useful when integrating with Material-UI, which has its own theming system.
+
+```jsx
+// Match AtomGridTable to Material-UI dark mode
+import { useTheme } from '@mui/material/styles';
+
+function DarkModeExample() {
+  const theme = useTheme();
+  const isDarkMode = theme.palette.mode === 'dark';
+  
+  return (
+    <AtomGridTable
+      colOptions={colOptions}
+      rows={rows}
+      tableStyleOptions={{
+        colorScheme: isDarkMode ? "dark" : "light"
+      }}
+    />
+  );
+}
+``` 

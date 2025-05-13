@@ -1,5 +1,6 @@
 import { Meta, Canvas, Story } from '@storybook/blocks';
 import * as Stories from '../stories/AtomGridTable.stories';
+import * as AdvancedStories from '../stories/AdvancedExamples.stories';
 
 <Meta title="Documentation/Styling" />
 
@@ -16,7 +17,7 @@ The `tableStyleOptions` prop provides several configuration options:
   colOptions={colOptions}
   rows={rows}
   tableStyleOptions={{
-    isFirstRowHeader: true,     // Styles the first row as a header
+    isFirstRowHeader: true,     // Uses the first row of data as the header row (omitting colOptions labels)
     isZebra: true,              // Applies alternating row colors
     isNoXCellBorders: false,    // Removes horizontal cell borders
     isSmallCellPadding: false,  // Reduces cell padding
@@ -29,7 +30,39 @@ The `tableStyleOptions` prop provides several configuration options:
 
 ## Example with Styling
 
+AtomGridTable supports both configuration options and CSS variables for styling:
+
+```jsx
+<AtomGridTable
+  colOptions={colOptions}
+  rows={rows}
+  className="custom-styled-table"
+  tableTheme="purple-theme"
+  tableStyleOptions={{
+    isFirstRowHeader: true,
+    isZebra: true,
+    isStickyHeader: true,
+    colorScheme: 'light',
+  }}
+/>
+```
+
+```css
+/* In your CSS file */
+.custom-styled-table.AGT-table-wrapper,
+.purple-theme.AGT-table-wrapper {
+  --AGT-c-primary: #9c27b0;
+  --AGT-c-header: #f3e5f5;
+  --AGT-c-line: #ce93d8;
+  --AGT-c-active: #e1bee7;
+  --AGT-c-hover: #f8f4f9;
+  --AGT-base-font-size: 15px;
+}
+```
+
 <Canvas of={Stories.WithStyling} />
+
+You can use `className` for one-off styling or `tableTheme` for reusable themes across your application.
 
 ## Custom CSS
 
@@ -45,11 +78,11 @@ You can apply custom CSS using the `className` prop:
 
 ```css
 /* In your CSS file */
-.my-custom-table {
+.my-custom-table.AGT-table-wrapper {
   /* Your custom styles */
-  --agt-border-color: #ccc;
-  --agt-header-bg: #f5f5f5;
-  --agt-cell-padding: 12px;
+  --AGT-c-line: #cccccc;
+  --AGT-c-header: #f5f5f5;
+  --AGT-base-font-size: 16px;
 }
 ```
 
@@ -58,32 +91,63 @@ You can apply custom CSS using the `className` prop:
 AtomGridTable uses CSS variables for theming. You can override these:
 
 ```css
-:root {
-  /* Base colors */
-  --agt-border-color: #e0e0e0;
-  --agt-text-color: #333;
-  --agt-bg-color: #fff;
+.AGT-table-wrapper {
+  /* Core colors */
+  --AGT-c-primary: #5a3af7;       /* Primary accent color */
+  --AGT-c-error: #dc2626;         /* Error state color */
+  --AGT-c-warning: #f59e0b;       /* Warning state color */
+  --AGT-c-success: #16a34a;       /* Success state color */
   
-  /* Header */
-  --agt-header-bg: #f5f5f5;
-  --agt-header-text: #333;
+  /* Background and layout colors */
+  --AGT-c-background: #fff;       /* Main background color */
+  --AGT-c-active: #eeeefc;        /* Active/selected state color */
+  --AGT-c-hover: #f4f4f7;         /* Hover state color */
+  --AGT-c-zebra: #fbfbfc;         /* Zebra stripe row color */
+  --AGT-c-header: #eeedf2;        /* Header background color */
+  --AGT-c-line: #dedce9;          /* Border line color */
+  --AGT-c-disabled: #c9c5da;      /* Disabled state color */
   
-  /* Rows */
-  --agt-row-hover: #f9f9f9;
-  --agt-row-selected: #e3f2fd;
-  --agt-row-zebra: #f8f8f8;
+  /* Text colors */
+  --AGT-c-text-primary: #1a1a1a;    /* Primary text color */
+  --AGT-c-text-secondary: #4a4a4a;  /* Secondary text color */
+  --AGT-c-text-tertiary: #767676;   /* Tertiary text color */
+  --AGT-c-text-annotation: #6b7280; /* Annotation text color */
   
-  /* Spacing */
-  --agt-cell-padding: 8px 12px;
+  /* Typography settings */
+  --AGT-bold-font: 700;             /* Bold font weight */
+  --AGT-regular-font: 400;          /* Regular font weight */
+  --AGT-base-font-size: 14px;       /* Base font size */
+  --AGT-base-line-height: 1.2;      /* Base line height */
   
-  /* Other */
-  --agt-border-radius: 4px;
+  /* Spacing and sizing */
+  --AGT-base-size: 8px;             /* Base sizing unit */
+  --AGT-border-width: 1px;          /* Border width */
+  --AGT-transition-time: .3s;       /* Animation transition time */
+}
+```
+
+### Dark Mode Colors
+
+For dark mode, these variables are automatically updated, or you can apply them manually using the `AGT-color-scheme-dark` class:
+
+```css
+.AGT-table-wrapper.AGT-color-scheme-dark {
+  --AGT-c-background: #171539;
+  --AGT-c-active: #302d6a;
+  --AGT-c-hover: #363463;
+  --AGT-c-zebra: #14122b;
+  --AGT-c-header: #211f47;
+  --AGT-c-line: #5b5385;
+  --AGT-c-text-primary: #e1dfe9;
+  --AGT-c-text-secondary: #fff;
+  --AGT-c-text-tertiary: #fff;
+  --AGT-c-text-annotation: #fff;
 }
 ```
 
 ## Light and Dark Themes
 
-AtomGridTable supports light and dark color schemes:
+AtomGridTable includes built-in light and dark color schemes that you can easily switch between using the `tableStyleOptions.colorScheme` property:
 
 ```jsx
 <AtomGridTable
@@ -94,6 +158,12 @@ AtomGridTable supports light and dark color schemes:
   }}
 />
 ```
+
+This applies the appropriate CSS class (`AGT-color-scheme-dark` or `AGT-color-scheme-light`) to the table wrapper, which sets all color variables accordingly.
+
+<Canvas of={AdvancedStories.DarkTheme} />
+
+The dark theme automatically adjusts all color variables for better readability in dark environments, including text colors, backgrounds, borders, and state indicators.
 
 ## Custom Table Theme
 
@@ -109,10 +179,11 @@ You can apply a custom theme name using the `tableTheme` prop:
 
 ```css
 /* In your CSS file */
-.blue-theme {
-  --agt-border-color: #2196f3;
-  --agt-header-bg: #bbdefb;
-  --agt-header-text: #0d47a1;
-  /* Other variables */
+.blue-theme.AGT-table-wrapper {
+  --AGT-c-primary: #2196f3;
+  --AGT-c-header: #bbdefb;
+  --AGT-c-text-primary: #0d47a1;
+  --AGT-c-active: #e3f2fd;
+  --AGT-c-hover: #f5f9fc;
 }
 ``` 

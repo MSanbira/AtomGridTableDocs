@@ -44,6 +44,23 @@ const MyTable = () => {
 };
 ```
 
+## Loading State
+
+AtomGridTable provides a built-in loading state that displays skeleton rows. To enable it, use the `isLoading` prop:
+
+```jsx
+<AtomGridTable 
+  colOptions={colOptions} 
+  rows={rows} 
+  isLoading={true}
+  tableStyleOptions={{ loaderRowsCount: 5 }} // Optional: control the number of skeleton rows
+/>
+```
+
+The `loaderRowsCount` property in `tableStyleOptions` allows you to specify how many skeleton rows should be displayed during loading.
+
+<Canvas of={Stories.WithLoading} />
+
 ## Example
 
 <Canvas of={Stories.Basic} />

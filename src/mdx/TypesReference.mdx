@@ -14,18 +14,19 @@ The main props interface for the AtomGridTable component:
 
 ```typescript
 interface TableProps extends TableHandlers {
-  colOptions: ColOption[];
-  rows: TableRow[];
-  className?: string;
-  isLoading?: boolean;
-  selectedRows?: (number | string)[];
-  isHasSelect?: boolean;
-  tableTheme?: string;
-  selectionArea?: string;
-  setSelected?: (selected: (number | string)[]) => void;
-  paginationOptions?: PaginationOptions;
-  sortingOptions?: SortingOptions;
-  tableStyleOptions?: TableStyleOptions;
+  colOptions: ColOption[];         // Column definitions
+  rows: TableRow[];                // Table data rows
+  className?: string;              // Additional CSS class
+  isLoading?: boolean;             // Shows loading state when true
+  selectedRows?: (number | string)[]; // IDs of selected rows
+  isHasSelect?: boolean;           // Enable row selection
+  tableTheme?: string;             // Custom theme class name
+  selectionArea?: string;          // Grid area for selection highlights
+  setSelected?: (selected: (number | string)[]) => void; // Selection change handler
+  paginationOptions?: PaginationOptions; // Pagination configuration
+  sortingOptions?: Partial<SortingOptions>; // Sorting configuration
+  tableStyleOptions?: TableStyleOptions; // Style configuration
+  isPagination?: boolean;          // Enable pagination UI
 }
 ```
 
@@ -120,10 +121,10 @@ Configure pagination behavior:
 
 ```typescript
 interface PaginationOptions {
-  rowCount?: number;
-  pageSizeOptions?: number[];
-  pageSizeKey?: string;
-  getApiParams?: (page: number, pageSize: number) => unknown;
+  rowCount?: number;               // Total number of rows for pagination
+  pageSizeOptions?: number[];      // Available page size options (e.g. [10, 25, 50])
+  pageSizeKey?: string;            // Key for storing page size preference
+  getApiParams?: (page: number, pageSize: number) => unknown; // Convert to API params
 }
 ```
 
@@ -135,10 +136,10 @@ Configure sorting behavior:
 
 ```typescript
 interface SortingOptions {
-  defaultOrdering?: string;
-  defaultDirection?: SortingDirection | null;
-  resetPage: () => void;
-  getApiParams?: (ordering: string, direction: SortingDirection | null) => unknown;
+  defaultOrdering?: string;        // Initial column to sort by
+  defaultDirection?: SortingDirection | null; // Initial sort direction
+  resetPage: () => void;           // Function to reset pagination on sort change
+  getApiParams?: (ordering: string, direction: SortingDirection | null) => unknown; // Convert to API params
 }
 
 enum SortingDirection {

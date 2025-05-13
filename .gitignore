@@ -26,3 +26,4 @@ dist-ssr
 *storybook.log
 
 AtomGridTable.d.ts
+AGT-style-ref.css

@@ -1,4 +1,8 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Canvas, Unstyled } from '@storybook/blocks';
+import * as Stories from '../stories/AtomGridTable.stories';
+import * as AdvancedStories from '../stories/AdvancedExamples.stories';
+import { AtomGridTable } from '@sanbira/atom-grid-table';
+import { useState } from 'react';
 
 <Meta title="Documentation/Selection" />
 
@@ -20,6 +24,14 @@ To enable row selection, use the `isHasSelect` prop:
 />
 ```
 
+> **IMPORTANT**: Each row in the `rows` array **MUST** have a unique `selectIdentifier` property for selection to work. Without this identifier, row selection will not function properly.
+
+## Interactive Example
+
+The example below demonstrates a fully functional selection implementation. Try selecting and deselecting rows to see the selection state update in real-time:
+
+<Canvas of={AdvancedStories.SelectionExample} />
+
 ## Managing Selected Rows
 
 You need to manage the selected rows state in your component:
@@ -29,11 +41,25 @@ import { useState } from 'react';
 import { AtomGridTable } from '@sanbira/atom-grid-table';
 
 function MySelectableTable() {
-  const [selectedRows, setSelectedRows] = useState([]);
+  // Pre-select rows '1' and '3'
+  const [selectedRows, setSelectedRows] = useState(['1', '3']);
   
   // Table configuration
   const colOptions = [/* column definitions */];
-  const rows = [/* row data with selectIdentifier */];
+  const rows = [
+  { 
+    selectIdentifier: '1', // String identifiers are recommended
+    cells: [/* cell data */] 
+  },
+  { 
+    selectIdentifier: '2',
+    cells: [/* cell data */] 
+  },
+  {
+    selectIdentifier: '3',
+    cells: [/* cell data */] 
+  }
+];
   
   return (
     <AtomGridTable
@@ -47,19 +73,13 @@ function MySelectableTable() {
 }
 ```
 
-## Row Configuration for Selection
+> **Note**: The `selectIdentifier` value can be a string or number, but it must be unique for each row. These identifiers will be the values stored in the `selectedRows` array when rows are selected.
 
-Each row should have a `selectIdentifier` prop to uniquely identify it for selection:
+## Implementation Details
 
-```jsx
-const rows = [
-  { 
-    selectIdentifier: 1,
-    cells: [/* cell data */] 
-  },
-  { 
-    selectIdentifier: 2,
-    cells: [/* cell data */] 
-  },
-];
-```
+When implementing selection in your application:
+
+1. Create a state variable using `useState` to track selected row IDs
+2. Pass this state to the `selectedRows` prop
+3. Provide a setter function to the `setSelected` prop
+4. Ensure each row has a unique `selectIdentifier`

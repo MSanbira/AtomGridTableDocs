@@ -1,4 +1,6 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Unstyled } from '@storybook/blocks';
+import { AtomGridTable } from '@sanbira/atom-grid-table';
+import { Typography } from '@sanbira/atom-grid-table';
 
 <Meta title="Documentation/TypeScript Types" />
 
@@ -12,73 +14,351 @@ AtomGridTable comes with comprehensive TypeScript definitions to enhance your de
 
 The main props interface for the AtomGridTable component:
 
-```typescript
-interface TableProps extends TableHandlers {
-  colOptions: ColOption[];         // Column definitions
-  rows: TableRow[];                // Table data rows
-  className?: string;              // Additional CSS class
-  isLoading?: boolean;             // Shows loading state when true
-  selectedRows?: (number | string)[]; // IDs of selected rows
-  isHasSelect?: boolean;           // Enable row selection
-  tableTheme?: string;             // Custom theme class name
-  selectionArea?: string;          // Grid area for selection highlights
-  setSelected?: (selected: (number | string)[]) => void; // Selection change handler
-  paginationOptions?: PaginationOptions; // Pagination configuration
-  sortingOptions?: Partial<SortingOptions>; // Sorting configuration
-  tableStyleOptions?: TableStyleOptions; // Style configuration
-  isPagination?: boolean;          // Enable pagination UI
-}
-```
+<Unstyled>
+<AtomGridTable
+  colOptions={[
+    { label: 'Property', width: 'auto' },
+    { label: 'Type' },
+    { label: 'Default' },
+    { label: 'Description', width: '2fr' },
+  ]}
+  rows={[
+    { cells: [
+      { content: 'colOptions' },
+      { content: 'ColOption[]' },
+      { content: 'required' },
+      { content: 'Column definitions for the table' }
+    ]},
+    { cells: [
+      { content: 'rows' },
+      { content: 'TableRow[]' },
+      { content: 'required' },
+      { content: 'Row data for the table' }
+    ]},
+    { cells: [
+      { content: 'className' },
+      { content: 'string' },
+      { content: '-' },
+      { content: 'Additional CSS class to apply to the table' }
+    ]},
+    { cells: [
+      { content: 'isLoading' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'When true, displays skeleton loading state' }
+    ]},
+    { cells: [
+      { content: 'selectedRows' },
+      { content: '(number | string)[]' },
+      { content: '[]' },
+      { content: 'Array of row identifiers that are currently selected' }
+    ]},
+    { cells: [
+      { content: 'isHasSelect' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Enable row selection with checkboxes' }
+    ]},
+    { cells: [
+      { content: 'tableTheme' },
+      { content: 'string' },
+      { content: '-' },
+      { content: 'Custom theme class name to apply to the table' }
+    ]},
+    { cells: [
+      { content: 'selectionArea' },
+      { content: 'string' },
+      { content: '-' },
+      { content: 'Grid area parameter for selection highlights' }
+    ]},
+    { cells: [
+      { content: 'setSelected' },
+      { content: 'function' },
+      { content: '-' },
+      { content: 
+      <>
+        <Typography>
+          Callback function invoked when selection changes.<br/>
+          <code> 
+          {'(selected: (number | string)[]) => void'}
+          </code>
+        </Typography>
+      </>
+      }
+    ]},
+    { cells: [
+      { content: 'paginationOptions' },
+      { content: 'PaginationOptions' },
+      { content: '-' },
+      { content: 'Configuration options for pagination' }
+    ]},
+    { cells: [
+      { content: 'sortingOptions' },
+      { content: 'SortingOptions' },
+      { content: '-' },
+      { content: 'Configuration options for sorting' }
+    ]},
+    { cells: [
+      { content: 'tableStyleOptions' },
+      { content: 'TableStyleOptions' },
+      { content: '-' },
+      { content: 'Style configuration options for the table' }
+    ]},
+    { cells: [
+      { content: 'isPagination' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Enable the pagination UI component' }
+    ]},
+    { cells: [
+      { content: 'onSortingChange' },
+      { content: 'function' },
+      { content: '-' },
+      { content: 
+      <>
+        <Typography>
+          Callback function invoked when sorting changes.<br/>
+          <code>
+{`(
+  apiParams,
+  ordering: string,
+  direction: SortingDirection | nul
+) => void`}
+          </code>
+        </Typography>
+      </>
+      }
+    ]},
+    { cells: [
+      { content: 'onPaginationChange' },
+      { content: 'function' },
+      { content: '-' },
+      { content: 
+      <>
+        <Typography>
+          Callback function invoked when pagination changes.<br/>
+          <code> 
+{`(
+  apiParams,
+  page: number,
+  pageSize: number
+) => void`}
+          </code>
+        </Typography>
+      </>
+      }
+    ]},
+    { cells: [
+      { content: 'onChange' },
+      { content: 'function' },
+      { content: '-' },
+      { content: 
+      <>
+        <Typography>
+          Callback function invoked when table sorting or pagination changes.<br/>
+          <code> 
+{`(
+  generalOptions: {
+    pageOptions: PaginationChangeOptions,
+    sortOptions: SortingChangeOptions
+  }
+) => void`}
+          </code>
+        </Typography>
+      </>
+      }
+    ]}
+
+  ]}
+  tableStyleOptions={{
+    isZebra: true,
+    isNoXCellBorders: true
+  }}
+/>
+</Unstyled>
 
 ### ColOption
 
 Defines the configuration for a table column:
 
-```typescript
-interface ColOption {
-  label?: string;
-  tooltip?: string;
-  name?: string;
-  width?: string;
-  resizeOptions?: {
-    min: number;
-    max: number;
-  };
-  isResizable?: boolean;
-  isHeadersColumn?: boolean;
-}
-```
+<Unstyled>
+<AtomGridTable
+  colOptions={[
+    { label: 'Property', width: 'auto' },
+    { label: 'Type' },
+    { label: 'Default' },
+    { label: 'Description', width: '2fr' },
+  ]}
+  rows={[
+    { cells: [
+      { content: 'label' },
+      { content: 'string' },
+      { content: '-' },
+      { content: 'Display text for the column header' }
+    ]},
+    { cells: [
+      { content: 'tooltip' },
+      { content: 'string' },
+      { content: '-' },
+      { content: 'Tooltip text displayed on hover over the header' }
+    ]},
+    { cells: [
+      { content: 'name' },
+      { content: 'string' },
+      { content: '-' },
+      { content: 'Identifier for the column, used for sorting' }
+    ]},
+    { cells: [
+      { content: 'width' },
+      { content: 'string' },
+      { content: '1fr' },
+      { content: 'Width of the column using CSS grid values (e.g. "100px", "2fr")' }
+    ]},
+    { cells: [
+      { content: 'resizeOptions' },
+      { content: '{ min: number; max: number }' },
+      { content: '{ min: 100, max: 800 }' },
+      { content: 'Min and max width constraints for resizable columns' }
+    ]},
+    { cells: [
+      { content: 'isResizable' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Whether the column can be resized by the user' }
+    ]},
+    { cells: [
+      { content: 'isHeadersColumn' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Marks the column as a headers column (for row headers)' }
+    ]}
+  ]}
+  tableStyleOptions={{
+    isZebra: true,
+    isNoXCellBorders: true
+  }}
+/>
+</Unstyled>
 
 ### TableRow
 
 Defines a row in the table:
 
-```typescript
-interface TableRow extends Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
-  cells: (TableCell | undefined)[];
-  isActive?: boolean;
-  selectIdentifier?: number | string;
-  isHeader?: boolean;
-  isSticky?: boolean;
-}
-```
+<Unstyled>
+<AtomGridTable
+  colOptions={[
+    { label: 'Property', width: 'auto' },
+    { label: 'Type' },
+    { label: 'Default' },
+    { label: 'Description', width: '2fr' },
+  ]}
+  rows={[
+    { cells: [
+      { content: 'cells' },
+      { content: '(TableCell | undefined)[]' },
+      { content: 'required' },
+      { content: 'Array of cells that make up the row' }
+    ]},
+    { cells: [
+      { content: 'isActive' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Highlights the row with active state styling' }
+    ]},
+    { cells: [
+      { content: 'selectIdentifier' },
+      { content: 'number | string' },
+      { content: '-' },
+      { content: 'Unique identifier for the row, used for selection' }
+    ]},
+    { cells: [
+      { content: 'isHeader' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Indicates the row is a header row' }
+    ]},
+    { cells: [
+      { content: 'isSticky' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Makes the row sticky when scrolling' }
+    ]}
+  ]}
+  tableStyleOptions={{
+    isZebra: true,
+    isNoXCellBorders: true
+  }}
+/>
+</Unstyled>
 
 ### TableCell
 
 Defines a cell in the table:
 
-```typescript
-interface TableCell extends Omit<React.HTMLAttributes<HTMLDivElement>, "content"> {
-  content: ReactNode;
-  span?: number;
-  isOneLine?: boolean;
-  isNumber?: boolean;
-  isHeader?: boolean;
-  isNoPadding?: boolean;
-  isDisabled?: boolean;
-  isCentered?: boolean;
-}
-```
+<Unstyled>
+<AtomGridTable
+  colOptions={[
+    { label: 'Property', width: 'auto' },
+    { label: 'Type' },
+    { label: 'Default' },
+    { label: 'Description', width: '2fr' },
+  ]}
+  rows={[
+    { cells: [
+      { content: 'content' },
+      { content: 'ReactNode' },
+      { content: 'required' },
+      { content: 'Content to display in the cell' }
+    ]},
+    { cells: [
+      { content: 'span' },
+      { content: 'number' },
+      { content: '1' },
+      { content: 'Number of columns the cell should span' }
+    ]},
+    { cells: [
+      { content: 'isOneLine' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Truncates text with ellipsis if it overflows' }
+    ]},
+    { cells: [
+      { content: 'isNumber' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Applies number formatting and right-aligns content' }
+    ]},
+    { cells: [
+      { content: 'isHeader' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Styles the cell as a header cell' }
+    ]},
+    { cells: [
+      { content: 'isNoPadding' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Removes default padding from the cell' }
+    ]},
+    { cells: [
+      { content: 'isDisabled' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Applies disabled styling to the cell' }
+    ]},
+    { cells: [
+      { content: 'isCentered' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Centers the cell content vertically' }
+    ]}
+  ]}
+  tableStyleOptions={{
+    isZebra: true,
+    isNoXCellBorders: true
+  }}
+/>
+</Unstyled>
 
 ## Style Types
 
@@ -86,17 +366,64 @@ interface TableCell extends Omit<React.HTMLAttributes<HTMLDivElement>, "content"
 
 Controls the visual appearance of the table:
 
-```typescript
-interface TableStyleOptions {
-  isFirstRowHeader?: boolean;
-  isZebra?: boolean;
-  isNoXCellBorders?: boolean;
-  isSmallCellPadding?: boolean;
-  isStickyHeader?: boolean;
-  loaderRowsCount?: number;
-  colorScheme?: "light" | "dark";
-}
-```
+<Unstyled>
+<AtomGridTable
+  colOptions={[
+    { label: 'Property', width: 'auto' },
+    { label: 'Type' },
+    { label: 'Default' },
+    { label: 'Description', width: '2fr' },
+  ]}
+  rows={[
+    { cells: [
+      { content: 'isFirstRowHeader' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Treats the first row as a header row' }
+    ]},
+    { cells: [
+      { content: 'isZebra' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Applies alternating background colors to rows' }
+    ]},
+    { cells: [
+      { content: 'isNoXCellBorders' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Removes vertical borders between cells' }
+    ]},
+    { cells: [
+      { content: 'isSmallCellPadding' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Reduces the default cell padding' }
+    ]},
+    { cells: [
+      { content: 'isStickyHeader' },
+      { content: 'boolean' },
+      { content: 'false' },
+      { content: 'Makes the header row stick to the top when scrolling' }
+    ]},
+    { cells: [
+      { content: 'loaderRowsCount' },
+      { content: 'number' },
+      { content: '{pageSize}' },
+      { content: 'Number of skeleton rows to display in loading state' }
+    ]},
+    { cells: [
+      { content: 'colorScheme' },
+      { content: '"light" | "dark"' },
+      { content: '-' },
+      { content: 'Sets the color scheme of the table, if not set, the color scheme will be the same as the user\'s system' }
+    ]}
+  ]}
+  tableStyleOptions={{
+    isZebra: true,
+    isNoXCellBorders: true
+  }}
+/>
+</Unstyled>
 
 ## Context API Types
 
@@ -104,14 +431,34 @@ interface TableStyleOptions {
 
 Used with the Context API provider:
 
-```typescript
-interface AtomGridTableContextProps {
-  isHasContext?: boolean;
-  defaultTableOptions?: Partial<TableProps>;
-  customComponents?: CustomComponents;
-  globalMouseClientX?: number;
-}
-```
+<Unstyled>
+<AtomGridTable
+  colOptions={[
+    { label: 'Property', width: 'auto' },
+    { label: 'Type' },
+    { label: 'Default' },
+    { label: 'Description', width: '2fr' },
+  ]}
+  rows={[
+    { cells: [
+      { content: 'defaultTableOptions' },
+      { content: 'TableProps' },
+      { content: '-' },
+      { content: 'Default table props applied to all tables in context' }
+    ]},
+    { cells: [
+      { content: 'customComponents' },
+      { content: 'CustomComponents' },
+      { content: '-' },
+      { content: 'Component overrides for base components' }
+    ]},
+  ]}
+  tableStyleOptions={{
+    isZebra: true,
+    isNoXCellBorders: true
+  }}
+/>
+</Unstyled>
 
 ## Pagination Types
 
@@ -119,14 +466,53 @@ interface AtomGridTableContextProps {
 
 Configure pagination behavior:
 
-```typescript
-interface PaginationOptions {
-  rowCount?: number;               // Total number of rows for pagination
-  pageSizeOptions?: number[];      // Available page size options (e.g. [10, 25, 50])
-  pageSizeKey?: string;            // Key for storing page size preference
-  getApiParams?: (page: number, pageSize: number) => unknown; // Convert to API params
-}
-```
+<Unstyled>
+<AtomGridTable
+  colOptions={[
+    { label: 'Property', width: 'auto' },
+    { label: 'Type' },
+    { label: 'Default' },
+    { label: 'Description', width: '2fr' },
+  ]}
+  rows={[
+    { cells: [
+      { content: 'rowCount' },
+      { content: 'number' },
+      { content: '-' },
+      { content: 'Total number of rows for pagination calculation' }
+    ]},
+    { cells: [
+      { content: 'pageSizeOptions' },
+      { content: 'number[]' },
+      { content: '[10, 20, 50, 100]' },
+      { content: 'Available options for the page size selector' }
+    ]},
+    { cells: [
+      { content: 'pageSizeKey' },
+      { content: 'string' },
+      { content: '"AGTGeneralPageSizePref"' },
+      { content: 'Key used for storing page size preference' }
+    ]},
+    { cells: [
+      { content: 'getApiParams' },
+      { content: 'function' },
+      { content: '-' },
+      { content: 
+      <>
+        <Typography>
+          Function to convert pagination to API parameters.<br/>
+          <code> {'(page: number, pageSize: number) => unknown'}</code>
+        </Typography>
+      </>
+      }
+    ]}
+  ]}
+  tableStyleOptions={{
+    isZebra: true,
+    isNoXCellBorders: true
+  }}
+/>
+</Unstyled>
 
 ## Sorting Types
 
@@ -134,16 +520,57 @@ interface PaginationOptions {
 
 Configure sorting behavior:
 
-```typescript
-interface SortingOptions {
-  defaultOrdering?: string;        // Initial column to sort by
-  defaultDirection?: SortingDirection | null; // Initial sort direction
-  resetPage: () => void;           // Function to reset pagination on sort change
-  getApiParams?: (ordering: string, direction: SortingDirection | null) => unknown; // Convert to API params
-}
-
-enum SortingDirection {
-  ASC = "asc",
-  DESC = "desc"
-}
-``` 
+<Unstyled>
+<AtomGridTable
+  colOptions={[
+    { label: 'Property', width: 'auto' },
+    { label: 'Type' },
+    { label: 'Default' },
+    { label: 'Description', width: '2fr' },
+  ]}
+  rows={[
+    { cells: [
+      { content: 'defaultOrdering' },
+      { content: 'string' },
+      { content: '-' },
+      { content: 'Initial column to sort by (matches column name)' }
+    ]},
+    { cells: [
+      { content: 'defaultDirection' },
+      { content: 'SortingDirection | null' },
+      { content: 'null' },
+      { content: 'Initial sort direction (ASC, DESC, or null)' }
+    ]},
+    { cells: [
+      { content: 'resetPage' },
+      { content: 'function' },
+      { content: 'required' },
+      { content: 
+      <>
+        <Typography>
+          Function called to reset pagination when sort changes.<br/>
+          <code> {'() => void'}</code>
+        </Typography>
+      </>
+      }
+    ]},
+    { cells: [
+      { content: 'getApiParams' },
+      { content: 'function' },
+      { content: '-' },
+      { content: 
+      <>
+        <Typography>
+          Function to convert sorting to API parameters.<br/>
+          <code> {'(ordering: string, direction: SortingDirection | null) => unknown'}</code>
+        </Typography>
+      </>
+      }
+    ]}
+  ]}
+  tableStyleOptions={{
+    isZebra: true,
+    isNoXCellBorders: true
+  }}
+/>
+</Unstyled>

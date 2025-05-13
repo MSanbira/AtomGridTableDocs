@@ -16,7 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 // Sample data for examples
 const sampleColumns = [
-  { name: 'id', label: 'ID', width: '70px' },
+  { name: 'id', label: 'ID', width: '100px' },
   { name: 'name', label: 'Name', width: '130px', isResizable: true, resizeOptions: { min: 100, max: 300 } },
   { name: 'email', label: 'Email', width: '200px', isResizable: true },
   { name: 'role', label: 'Role', width: '120px' },
@@ -81,29 +81,8 @@ export const ResizableColumns: Story = {
     colOptions: sampleColumns,
     rows: sampleRows,
     tableStyleOptions: {
-      isFirstRowHeader: true,
       isZebra: true,
       isStickyHeader: true,
-    },
-  },
-};
-
-export const WithPagination: Story = {
-  args: {
-    colOptions: sampleColumns,
-    rows: sampleRows,
-    tableStyleOptions: {
-      isFirstRowHeader: true,
-      isZebra: true,
-      isStickyHeader: true,
-    },
-    paginationOptions: {
-      rowCount: 100, // Example total count
-      pageSizeOptions: [5, 10, 25, 50],
-      getApiParams: (page, pageSize) => ({
-        limit: pageSize,
-        offset: (page - 1) * pageSize
-      }),
     },
   },
 };
@@ -113,7 +92,6 @@ export const DarkTheme: Story = {
     colOptions: sampleColumns,
     rows: sampleRows,
     tableStyleOptions: {
-      isFirstRowHeader: true,
       isZebra: true,
       isStickyHeader: true,
       colorScheme: 'dark',
@@ -128,7 +106,6 @@ export const CombinedFeatures: Story = {
     isHasSelect: true,
     selectedRows: [1, 3],
     tableStyleOptions: {
-      isFirstRowHeader: true,
       isZebra: true,
       isStickyHeader: true,
     },

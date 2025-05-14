@@ -78,11 +78,11 @@ The main props interface for the AtomGridTable component:
       { content: 
       <>
         <Typography>
-          Callback function invoked when selection changes.<br/>
+          Callback function invoked when selection changes.<br/><br/>
+        </Typography>
           <code> 
           {'(selected: (number | string)[]) => void'}
           </code>
-        </Typography>
       </>
       }
     ]},
@@ -118,14 +118,14 @@ The main props interface for the AtomGridTable component:
       <>
         <Typography>
           Callback function invoked when sorting changes.<br/>
-          <code>
+        </Typography>
+        <code>
 {`(
   apiParams,
   ordering: string,
   direction: SortingDirection | nul
 ) => void`}
-          </code>
-        </Typography>
+        </code>
       </>
       }
     ]},
@@ -137,14 +137,14 @@ The main props interface for the AtomGridTable component:
       <>
         <Typography>
           Callback function invoked when pagination changes.<br/>
-          <code> 
+        </Typography>
+        <code> 
 {`(
   apiParams,
   page: number,
   pageSize: number
 ) => void`}
-          </code>
-        </Typography>
+        </code>
       </>
       }
     ]},
@@ -156,15 +156,15 @@ The main props interface for the AtomGridTable component:
       <>
         <Typography>
           Callback function invoked when table sorting or pagination changes.<br/>
-          <code> 
+        </Typography>
+        <code> 
 {`(
   generalOptions: {
     pageOptions: PaginationChangeOptions,
     sortOptions: SortingChangeOptions
   }
 ) => void`}
-          </code>
-        </Typography>
+        </code>
       </>
       }
     ]}
@@ -500,9 +500,9 @@ Configure pagination behavior:
       { content: 
       <>
         <Typography>
-          Function to convert pagination to API parameters.<br/>
-          <code> {'(page: number, pageSize: number) => unknown'}</code>
+          Function to convert pagination to API parameters.<br/><br/>
         </Typography>
+        <code> {'(page: number, pageSize: number) => unknown'}</code>
       </>
       }
     ]}
@@ -548,9 +548,9 @@ Configure sorting behavior:
       { content: 
       <>
         <Typography>
-          Function called to reset pagination when sort changes.<br/>
-          <code> {'() => void'}</code>
+          Function called to reset pagination when sort changes.<br/><br/>
         </Typography>
+        <code> {'() => void'}</code>
       </>
       }
     ]},
@@ -561,9 +561,9 @@ Configure sorting behavior:
       { content: 
       <>
         <Typography>
-          Function to convert sorting to API parameters.<br/>
-          <code> {'(ordering: string, direction: SortingDirection | null) => unknown'}</code>
+          Function to convert sorting to API parameters.<br/><br/>
         </Typography>
+        <code> {'(ordering: string, direction: SortingDirection | null) => unknown'}</code>
       </>
       }
     ]}

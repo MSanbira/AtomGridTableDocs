@@ -1,0 +1,185 @@
+import { Meta, Canvas, Unstyled } from '@storybook/blocks';
+import * as ApiStories from '../stories/ApiExample.stories';
+
+<Meta title="Documentation/API Integration" />
+
+# API Integration
+
+AtomGridTable provides robust support for server-side pagination and sorting. This guide demonstrates how to integrate AtomGridTable with a backend API.
+
+## Example
+
+Below is a live example of AtomGridTable integrated with a simulated API that handles server-side pagination and sorting:
+
+<Canvas of={ApiStories.ApiPaginationSorting} />
+
+This example demonstrates:
+- Loading data from a backend API
+- Server-side pagination with proper limit/offset parameters
+- Server-side sorting with column names
+- Loading state during API requests
+- Graceful handling of API responses
+- Integrated pagination UI with total count from the API
+
+## Core Concepts
+
+When working with server-side data processing:
+
+1. The **API** is responsible for:
+   - Filtering data based on query parameters
+   - Sorting data in the requested order
+   - Paginating data with limit/offset parameters
+   - Returning the total count of matching records
+
+2. **AtomGridTable** is responsible for:
+   - Providing a UI for sorting and pagination
+   - Converting user interactions into API parameters
+   - Displaying loading states during API requests
+   - Rendering the data returned from the API
+
+## Basic Implementation
+
+Here's a simple example that demonstrates integrating AtomGridTable with an API:
+
+```jsx
+import React, { useCallback, useState } from "react";
+import { 
+  AtomGridTable, 
+  type TableRow,
+  type PaginationChangeOptions,
+  type SortingChangeOptions
+} from "@sanbira/atom-grid-table";
+
+const ApiExample = () => {
+  // State for table data and loading indicator
+  const [rows, setRows] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Column definitions - include 'name' property for sorting
+  const colOptions = [
+    { name: "id", label: "ID" },
+    { name: "name", label: "Name", width: "1.5fr" },
+    { name: "department", label: "Department", width: "1.5fr" },
+    { name: "performance", label: "Performance" }
+  ];
+  
+  // Handle table changes using useCallback for better performance
+  const handleChange = useCallback(async (generalOptions) => {
+    const { pageOptions, sortOptions } = generalOptions;
+    const { apiParams: paginationApiParams } = pageOptions;
+    const { apiParams: sortingApiParams } = sortOptions;
+    
+    // Show loading state while fetching data
+    setIsLoading(true);
+    try {
+      // Replace with your actual API call
+      const { rows, totalCount } = await apiService.getEmployees(
+        paginationApiParams, 
+        sortingApiParams
+      );
+      setRows(rows);
+      setTotalCount(totalCount);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+  
+  return (
+    <AtomGridTable
+      colOptions={colOptions}
+      rows={rows}
+      isLoading={isLoading}
+      
+      // Enable pagination with total count from API
+      isPagination
+      paginationOptions={{
+        rowCount: totalCount
+      }}
+      
+      // Enable sorting with default column
+      sortingOptions={{
+        defaultOrdering: "id"
+      }}
+      
+      // Use the combined change handler
+      onChange={handleChange}
+      
+      // Apply styling options
+      tableStyleOptions={{
+        isZebra: true,
+        isStickyHeader: true
+      }}
+    />
+  );
+};
+```
+
+## API Parameter Structure
+
+By default, AtomGridTable generates API parameters in the following format:
+
+### Pagination Parameters
+
+```typescript
+// Default pagination parameters
+type PaginationApiParams = {
+  limit: number;   // Number of rows per page
+  offset: number;  // Starting position (page * pageSize)
+};
+
+// Example: For page 2 with page size 10
+// { limit: 10, offset: 10 }
+```
+
+### Sorting Parameters
+
+```typescript
+// Default sorting parameters
+type SortingApiParams = {
+  ordering: string | undefined;  // Column name with optional "-" prefix for descending
+};
+
+// Example: Ascending sort on "name" column
+// { ordering: "name" }
+
+// Example: Descending sort on "date" column
+// { ordering: "-date" }
+```
+
+## Custom API Parameter Format
+
+If your API requires a different parameter format, you can customize it using the `getApiParams` function:
+
+```jsx
+// Custom pagination format
+paginationOptions={{
+  rowCount: totalCount,
+  getApiParams: (page, pageSize) => ({
+    page_number: page + 1,  // If your API uses 1-indexed pages
+    results_per_page: pageSize,
+    include_total: true
+  })
+}}
+
+// Custom sorting format
+sortingOptions={{
+  getApiParams: (ordering, direction) => ({
+    sort_by: ordering,
+    sort_direction: direction === "ASC" ? "ascending" : "descending"
+  })
+}}
+```
+
+## Best Practices
+
+- Always provide the `rowCount` for correct pagination calculation
+- Include the `name` property in column definitions for sorting
+- Set `isLoading={true}` during API calls to show loading state
+- Use the combined `onChange` handler for simpler code
+- Cache API responses when appropriate to reduce server load
+- Handle errors gracefully with user-friendly messages
+
+By following these patterns, you can create a seamless user experience even when working with large datasets that require server-side processing. 

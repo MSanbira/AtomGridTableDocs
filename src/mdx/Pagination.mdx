@@ -1,5 +1,6 @@
 import { Meta, Canvas, Unstyled } from '@storybook/blocks';
 import * as Stories from '../stories/AtomGridTable.stories';
+import * as ApiStories from '../stories/ApiExample.stories';
 import { AtomGridTable } from '@sanbira/atom-grid-table';
 
 <Meta title="Documentation/Pagination" />
@@ -20,9 +21,7 @@ The simplest way to enable pagination is to set the `isPagination` prop to `true
 />
 ```
 
-This enables the standard pagination controls at the bottom of the table with default settings:
-
-<Canvas of={Stories.WithPagination} />
+This enables the standard pagination controls at the bottom of the table with default settings.
 
 For more control over pagination behavior, you can provide a `paginationOptions` object:
 
@@ -191,3 +190,7 @@ AtomGridTable's pagination and sorting can work together. Use the `onChange` han
 This approach allows you to handle both sorting and pagination changes in a single callback, making it easier to manage API requests with multiple parameters. When the user changes either the sort order or the page, the `onChange` handler will be called with updated information for both.
 
 > **Note:** When using sorting with pagination, consider how sorting affects pagination. By default, AtomGridTable will reset to the first page when sorting changes to prevent showing empty pages. This behavior can be customized by providing a custom `resetPage` function in your `sortingOptions`. 
+
+## Pagination and Sorting Example
+
+<Canvas of={ApiStories.ApiPaginationSorting} />

@@ -13,6 +13,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Sample data for examples
+const sampleRows = [
+  { cells: [{ content: '1' }, { content: 'John Doe' }, { content: 'john@example.com' }] },
+  { cells: [{ content: '2' }, { content: 'Jane Smith' }, { content: 'jane@example.com' }] },
+  { cells: [{ content: '3' }, { content: 'Bob Johnson' }, { content: 'bob@example.com' }] },
+];
+
 export const Basic: Story = {
   args: {
     colOptions: [
@@ -20,11 +27,7 @@ export const Basic: Story = {
       { label: 'name', width: '2fr' },
       { label: 'email', width: '2fr' },
     ],
-    rows: [
-      { cells: [{ content: '1' }, { content: 'John Doe' }, { content: 'john@example.com' }] },
-      { cells: [{ content: '2' }, { content: 'Jane Smith' }, { content: 'jane@example.com' }] },
-      { cells: [{ content: '3' }, { content: 'Bob Johnson' }, { content: 'bob@example.com' }] },
-    ],
+    rows: sampleRows,
   },
   parameters: {
     docs: {
@@ -104,50 +107,6 @@ const CustomStyledTable = () => {
   }
 };
 
-export const WithSelection: Story = {
-  args: {
-    ...Basic.args,
-    isHasSelect: true,
-    // In a real app, you would manage this state with useState
-    // and provide a real callback for setSelected
-    selectedRows: ['1'],
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-const WithSelection = () => {
-  const colOptions = [
-    { label: 'id' },
-    { label: 'name', width: '2fr' },
-    { label: 'email', width: '2fr' },
-  ];
-  
-  const rows = [
-    { cells: [{ content: '1' }, { content: 'John Doe' }, { content: 'john@example.com' }] },
-    { cells: [{ content: '2' }, { content: 'Jane Smith' }, { content: 'jane@example.com' }] },
-    { cells: [{ content: '3' }, { content: 'Bob Johnson' }, { content: 'bob@example.com' }] },
-  ];
-
-  // In a real app, you would manage this state with useState
-  const [selectedRows, setSelected] = useState(['1']);
-
-  return (
-    <AtomGridTable 
-      colOptions={colOptions} 
-      rows={rows} 
-      isHasSelect={true}
-      selectedRows={selectedRows}
-      setSelected={setSelected}
-    />
-  );
-};
-        `
-      }
-    }
-  }
-};
-
 export const WithLoading: Story = {
   args: {
     ...Basic.args,
@@ -187,34 +146,49 @@ const WithLoading = () => {
   }
 };
 
-export const WithPagination: Story = {
+export const WithResizableColumns: Story = {
   args: {
-    ...Basic.args,
-    isPagination: true // Simplest way to enable pagination
+    colOptions: [
+      { label: 'ID' },
+      { label: 'Name', width: '2fr', isResizable: true, resizeOptions: { min: 100, max: 300 } },
+      { label: 'Email', width: '2fr', isResizable: true },
+    ],
+    rows: sampleRows,
+    tableStyleOptions: {
+      isZebra: true,
+      isStickyHeader: true,
+    },
   },
   parameters: {
     docs: {
       source: {
         code: `
-const WithPagination = () => {
+const WithResizableColumns = () => {
   const colOptions = [
-    { label: 'id' },
-    { label: 'name', width: '2fr' },
-    { label: 'email', width: '2fr' },
+    { label: 'ID' },
+    { 
+      label: 'Name', 
+      width: '2fr', 
+      isResizable: true, 
+      resizeOptions: { min: 100, max: 300 } 
+    },
+    { label: 'Email', width: '2fr', isResizable: true },
   ];
   
   const rows = [
     { cells: [{ content: '1' }, { content: 'John Doe' }, { content: 'john@example.com' }] },
     { cells: [{ content: '2' }, { content: 'Jane Smith' }, { content: 'jane@example.com' }] },
     { cells: [{ content: '3' }, { content: 'Bob Johnson' }, { content: 'bob@example.com' }] },
-    // Additional rows would be here in a real application
   ];
 
   return (
     <AtomGridTable 
       colOptions={colOptions} 
-      rows={rows} 
-      isPagination={true} // Simplest way to enable pagination
+      rows={rows}
+      tableStyleOptions={{
+        isZebra: true,
+        isStickyHeader: true,
+      }}
     />
   );
 };
@@ -224,22 +198,24 @@ const WithPagination = () => {
   }
 };
 
-export const WithSorting: Story = {
+export const WithDarkTheme: Story = {
   args: {
     ...Basic.args,
-    sortingOptions: {
-      // No configuration needed for basic sorting
+    tableStyleOptions: {
+      isZebra: true,
+      isStickyHeader: true,
+      colorScheme: "dark",
     },
   },
   parameters: {
     docs: {
       source: {
         code: `
-const WithSorting = () => {
+const WithDarkTheme = () => {
   const colOptions = [
-    { label: 'id', name: 'id' },       // 'name' is required for sorting
-    { label: 'name', name: 'name', width: '2fr' },
-    { label: 'email', name: 'email', width: '2fr' },
+    { label: 'ID' },
+    { label: 'Name', width: '2fr' },
+    { label: 'Email', width: '2fr' },
   ];
   
   const rows = [
@@ -251,9 +227,11 @@ const WithSorting = () => {
   return (
     <AtomGridTable 
       colOptions={colOptions} 
-      rows={rows} 
-      sortingOptions={{
-        // No configuration needed for basic sorting
+      rows={rows}
+      tableStyleOptions={{
+        isZebra: true,
+        isStickyHeader: true,
+        colorScheme: "dark",
       }}
     />
   );

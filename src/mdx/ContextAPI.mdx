@@ -1,10 +1,22 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Canvas } from '@storybook/blocks';
+import * as AdvancedStories from '../stories/AdvancedExamples.stories';
 
 <Meta title="Documentation/Context API" />
 
 # AtomGridTable Context API
 
 AtomGridTable provides a Context API for global configuration and customization of all tables in your application.
+
+## Live Example
+
+Below is a working example of AtomGridTable using the Context API:
+
+<Canvas of={AdvancedStories.ContextExample} />
+
+This example demonstrates:
+- Setting default table style options
+- Applying consistent styling across tables
+- Using the provider to set global configuration
 
 ## Setting Up the Provider
 
@@ -15,35 +27,18 @@ import { AtomGridTableProvider } from '@sanbira/atom-grid-table';
 
 function App() {
   return (
-    <AtomGridTableProvider defaultTableOptions={{
-      tableStyleOptions: {
-        isZebra: true,
-        colorScheme: 'light'
-      }
-    }}>
+    <AtomGridTableProvider 
+      defaultTableOptions={{
+        tableStyleOptions: {
+          isZebra: true,
+          colorScheme: 'light'
+        }
+      }}
+    >
       <YourAppContent />
     </AtomGridTableProvider>
   );
 }
-```
-
-## Default Table Options
-
-You can set default options for all tables:
-
-```jsx
-<AtomGridTableProvider
-  defaultTableOptions={{
-    tableStyleOptions: {
-      isZebra: true,
-      isStickyHeader: true,
-      colorScheme: 'light'
-    },
-    // Other default options
-  }}
->
-  {/* Your app content */}
-</AtomGridTableProvider>
 ```
 
 ## Component Customization Interface

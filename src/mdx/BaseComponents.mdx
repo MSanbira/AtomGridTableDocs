@@ -26,7 +26,7 @@ The checkbox component is used for row selection:
 ```typescript
 interface CheckboxProps {
   checked?: boolean;
-  onClick?: (e: React.MouseEvent, value: boolean) => void;
+  onClick?: (e: React.MouseEvent | React.ChangeEvent, value: boolean) => void;
   className?: string;
   indeterminate?: boolean;
   disabled?: boolean;
@@ -40,8 +40,11 @@ Default behavior: A standard checkbox with indeterminate state support for the "
 The select component is used for pagination page size selection:
 
 ```typescript
-interface SelectProps extends ComponentProps<"select"> {
+interface SelectProps {
   options: SelectOption[];
+  className?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => void;
 }
 
 type SelectOption = {
@@ -78,9 +81,8 @@ Default behavior: Renders text with appropriate HTML elements based on the varia
 The skeleton component is used for loading states:
 
 ```typescript
-interface SkeletonProps {
-  // No specific props in base implementation
-}
+// No props defined in the component interface
+const Skeleton: () => JSX.Element;
 ```
 
 Default behavior: Displays an animated loading placeholder.
@@ -90,9 +92,18 @@ Default behavior: Displays an animated loading placeholder.
 The icon button component is used for interactive icons:
 
 ```typescript
-interface IconButtonProps extends ComponentProps<"button"> {
+interface IconButtonProps {
   icon: React.ReactNode;
+  disabled?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  className?: string;
+  iconType?: IconButtonType;
+}
+
+enum IconButtonType {
+  ArrowLeft = "ArrowLeft",
+  ArrowRight = "ArrowRight"
 }
 ```
 
-Default behavior: A button styled to display an icon with appropriate hover states. 
+Default behavior: A button styled to display an icon with appropriate hover states. The `iconType` property allows for specialized treatment of navigation arrow icons. 

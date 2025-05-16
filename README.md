@@ -13,6 +13,11 @@ AtomGridTable is a powerful and flexible React grid/table component for displayi
 - Custom styling options
 - Theming support
 
+## Links
+
+- [NPM Package](https://www.npmjs.com/package/@sanbira/atom-grid-table)
+- [GitHub Repository](https://github.com/MSanbira/AtomGridTable)
+
 ## Running the Documentation
 
 ### Prerequisites

@@ -17,6 +17,9 @@ This example demonstrates using Material-UI for:
 - Tooltips (hover over the ID column header)
 - Typography (for text rendering)
 - Skeleton loaders (when in loading state)
+- IconButton components (with custom icons)
+- Select inputs (with MenuItem children)
+- Checkbox components (for row selection)
 
 ## Simple Implementation
 
@@ -25,7 +28,16 @@ For a simpler implementation that just uses the basic Material-UI components:
 ```jsx
 import React from 'react';
 import { AtomGridTableProvider, AtomGridTable } from '@sanbira/atom-grid-table';
-import { Tooltip, Typography, Skeleton } from '@mui/material';
+import { 
+  Checkbox, 
+  IconButton, 
+  MenuItem, 
+  Select, 
+  Skeleton, 
+  Tooltip, 
+  Typography 
+} from '@mui/material';
+import { ArrowBack, ArrowForward } from '@mui/icons-material';
 
 function SimpleMUIExample() {
   return (
@@ -35,6 +47,27 @@ function SimpleMUIExample() {
         tooltip: Tooltip,
         typography: Typography,
         skeleton: Skeleton,
+        // Adapt components that need special handling
+        iconButton: (props) => {
+          const { icon, ...rest } = props;
+          return <IconButton {...rest}>{icon}</IconButton>;
+        },
+        select: (props) => {
+          const { options, onChange, ...rest } = props;
+          return (
+            <Select onChange={onChange} {...rest}>
+              {options.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label ?? option.value}
+                </MenuItem>
+              ))}
+            </Select>
+          );
+        },
+        checkbox: (props) => {
+          const { onClick, ...rest } = props;
+          return <Checkbox onChange={onClick} {...rest} />;
+        },
       }}
     >
       <AtomGridTable
@@ -62,9 +95,10 @@ function SimpleMUIExample() {
 
 1. Import Material-UI components
 2. Create a mapping for each base component
-3. Create the customComponents object
+3. Create the customComponents object with component adapters
 4. Wrap your app with the AtomGridTableProvider
 5. Use AtomGridTable as usual
+
 
 ## Styling Considerations
 

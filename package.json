@@ -14,7 +14,7 @@
     "heroku-postbuild": "npm run build-storybook"
   },
   "engines": {
-    "node": "18.x",
+    "node": "24.x",
     "npm": "9.x"
   },
   "dependencies": {
